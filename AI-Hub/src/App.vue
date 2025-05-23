@@ -2,29 +2,17 @@
 import { ref } from 'vue';
 
 const chats = ref([
-  {
-    id: 1,
-    title: 'Neuer Chat',
-    model: 'Deepseek'
-  },
-  {
-    id: 2,
-    title: 'Zweiter Chat',
-    model: 'ChatGPT'
-  },
-  {
-    id: 3,
-    title: 'dsfd Chat',
-    model: 'ChatGPT'
-  },
+  { id: 1, title: 'Neuer Chat', model: 'Deepseek' },
+  { id: 2, title: 'Zweiter Chat', model: 'ChatGPT' },
 ]);
+
 </script>
 
 <template>
   <div class="layout">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <h2>Chats 💬</h2>
+      <h2>Chats</h2>
 
       <nav class="chat-list">
         <a
@@ -46,29 +34,49 @@ const chats = ref([
       </nav>
     </aside>
 
-    
+    <Routerlink/>
+
   </div>
 </template>
 
 <style>
+/* Global Layout */
 .layout {
   display: flex;
   height: 100vh;
   font-family: sans-serif;
+  background-color: #fff; /* GANZ WEISS 🤍 */
+  color: #000;
+  overflow: hidden;
 }
 
+/* Sidebar links */
 .sidebar {
   width: 260px;
-  background-color: white;
-  color: white;
+  background-color: #f9f9f9; /* heller Sidebar Hintergrund */
   padding: 20px;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-right: 1px solid #ddd;
 }
 
+/* Platz für Sidebar im Content */
+.content {
+  margin-left: 260px;
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+/* Sidebar Inhalt */
 .sidebar h2 {
   margin-bottom: 15px;
   font-size: 1.2em;
+  color: #333;
 }
 
 .chat-list {
@@ -79,21 +87,21 @@ const chats = ref([
 }
 
 .chat-link {
-  color: white;
+  color: #000;
   text-decoration: none;
-  background-color: #343541;
+  background-color: #eaeaea;
   padding: 10px;
   border-radius: 6px;
   transition: background 0.2s;
 }
 
 .chat-link:hover {
-  background-color: #444654;
+  background-color: #ddd;
 }
 
 .chat-link .model {
   font-size: 0.8em;
-  color: #aaa;
+  color: #666;
 }
 
 .menu {
@@ -104,7 +112,7 @@ const chats = ref([
 }
 
 .menu a {
-  color: white;
+  color: #555;
   text-decoration: none;
   padding: 8px;
   border-radius: 4px;
@@ -112,76 +120,6 @@ const chats = ref([
 }
 
 .menu a:hover {
-  background-color: #343541;
-}
-
-.content {
-  flex: 1;
-  background-color: #f3f3f3;
-  padding: 40px;
-}
-</style>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+  background-color: #ececec;
 }
 </style>
