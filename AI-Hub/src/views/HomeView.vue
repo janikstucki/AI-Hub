@@ -107,7 +107,7 @@ const count = ref(0)
     transition: color, background-color, border-color, box-shadow 150ms ease-in-out;
     background-color: var(--token-main-surface-primary, white);
     box-shadow: 0 9px 9px rgba(0, 0, 0, 0.01), 0 2px 5px rgba(0, 0, 0, 0.06);
-    height: 10000px;
+    height: auto;
 }
 
         textarea:focus {

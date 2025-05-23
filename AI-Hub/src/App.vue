@@ -1,125 +1,75 @@
 <script setup>
-import { ref } from 'vue';
-
-const chats = ref([
-  { id: 1, title: 'Neuer Chat', model: 'Deepseek' },
-  { id: 2, title: 'Zweiter Chat', model: 'ChatGPT' },
-]);
+import { RouterLink, RouterView } from 'vue-router'
+import { Sidebar } from '../components/Sidebar.vue'
 
 </script>
 
 <template>
-  <div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2>Chats</h2>
 
-      <nav class="chat-list">
-        <a
-          v-for="chat in chats.sort((a, b) => a.id - b.id)"
-          :key="chat.id"
-          href="#"
-          class="chat-link"
-        >
-          {{ chat.title }} <span class="model">({{ chat.model }})</span>
-        </a>
-      </nav>
-
-      <hr />
-
-      <nav class="menu">
-        <a href="#">Home</a>
-        <a href="#">Einstellungen</a>
-        <a href="#">Logout</a>
-      </nav>
-    </aside>
-
-    <Routerlink/>
-
-  </div>
+  <Sidebar />
+  <RouterView />
 </template>
 
-<style>
-/* Global Layout */
-.layout {
-  display: flex;
-  height: 100vh;
-  font-family: sans-serif;
-  background-color: #fff; /* GANZ WEISS 🤍 */
-  color: #000;
-  overflow: hidden;
+<style scoped>
+header {
+  line-height: 1.5;
+  max-height: 100vh;
 }
 
-/* Sidebar links */
-.sidebar {
-  width: 260px;
-  background-color: #f9f9f9; /* heller Sidebar Hintergrund */
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  border-right: 1px solid #ddd;
+.logo {
+  display: block;
+  margin: 0 auto 2rem;
 }
 
-/* Platz für Sidebar im Content */
-.content {
-  margin-left: 260px;
-  flex: 1;
-  padding: 40px;
-  overflow-y: auto;
+nav {
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 2rem;
 }
 
-/* Sidebar Inhalt */
-.sidebar h2 {
-  margin-bottom: 15px;
-  font-size: 1.2em;
-  color: #333;
+nav a.router-link-exact-active {
+  color: var(--color-text);
 }
 
-.chat-list {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+nav a.router-link-exact-active:hover {
+  background-color: transparent;
 }
 
-.chat-link {
-  color: #000;
-  text-decoration: none;
-  background-color: #eaeaea;
-  padding: 10px;
-  border-radius: 6px;
-  transition: background 0.2s;
+nav a {
+  display: inline-block;
+  padding: 0 1rem;
+  border-left: 1px solid var(--color-border);
 }
 
-.chat-link:hover {
-  background-color: #ddd;
+nav a:first-of-type {
+  border: 0;
 }
 
-.chat-link .model {
-  font-size: 0.8em;
-  color: #666;
-}
+@media (min-width: 1024px) {
+  header {
+    display: flex;
+    place-items: center;
+    padding-right: calc(var(--section-gap) / 2);
+  }
 
-.menu {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .logo {
+    margin: 0 2rem 0 0;
+  }
 
-.menu a {
-  color: #555;
-  text-decoration: none;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
+  }
 
-.menu a:hover {
-  background-color: #ececec;
+  nav {
+    text-align: left;
+    margin-left: -1rem;
+    font-size: 1rem;
+
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
 }
 </style>
