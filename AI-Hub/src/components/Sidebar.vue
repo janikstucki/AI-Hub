@@ -4,6 +4,7 @@ import { ref } from 'vue';
 const chats = ref([
   { id: 1, title: 'New Chat', model: 'Deepseek' },
   { id: 2, title: 'Second Chat', model: 'ChatGPT' },
+  { id: 3, title: 'Third Chat', model: 'ChatGPT' },
 ]);
 </script>
 
@@ -104,7 +105,6 @@ const chats = ref([
 .chat-link {
   color: #000;
   text-decoration: none;
-  background-color: #eaeaea;
   padding: 10px;
   border-radius: 6px;
   transition: background 0.2s;
