@@ -108,7 +108,8 @@ const chats = ref([
   padding: 10px;
   border-radius: 6px;
   transition: background 0.2s;
-
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .chat-link:hover {
