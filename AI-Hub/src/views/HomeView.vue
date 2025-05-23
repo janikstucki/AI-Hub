@@ -30,11 +30,7 @@ const count = ref(0)
 
         ></textarea>
 
-        <button 
-          class="_7436101"
-         @click="submitMessage"
-        :disabled="message.count <= 0"
-        >
+<button class="_7436101" @click="submitMessage" :disabled="message.length === 0">
           <div class="_6f28693">
             <div
               class="ds-icon"
