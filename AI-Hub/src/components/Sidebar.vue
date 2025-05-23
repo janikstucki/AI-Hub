@@ -9,21 +9,33 @@ const chats = ref([
 </script>
 
 <template>
-  <div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2>Chats</h2>
+        <div class="layout">
+            <aside class="sidebar">
+            <h2>Chats</h2>
 
-      <nav class="chat-list">
-        <a
-          v-for="chat in chats.sort((a, b) => a.id - b.id)"
-          :key="chat.id"
-          href="#"
-          class="chat-link"
-        >
-          {{ chat.title }} <span class="model">({{ chat.model }})</span>
-        </a>
-      </nav>
+        <nav class="chat-list">
+            <div v-if="chats.length === 0">
+                <a
+                href="#"
+                class="chat-link"
+                key="no-chats"
+                >
+                Noch keine Chats, beginne eine neue Konversation.
+                </a>
+            </div> 
+
+            <div v-else>
+                <a
+                v-for="chat in chats.sort((a, b) => a.id - b.id)"
+                :key="chat.id"
+                href="#"
+                class="chat-link"
+                >
+                {{ chat.title }} <span class="model">({{ chat.model }})</span>
+                </a>
+            </div>
+        </nav>
+
 
       <hr />
 
@@ -120,5 +132,30 @@ const chats = ref([
 
 .menu a:hover {
   background-color: #ececec;
+}
+
+nav {
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+nav a.router-link-exact-active {
+  color: var(--color-text);
+}
+
+nav a.router-link-exact-active:hover {
+  background-color: transparent;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0 1rem;
+  border-left: 1px solid var(--color-border);
+}
+
+nav a:first-of-type {
+  border: 0;
 }
 </style>
