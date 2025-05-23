@@ -80,7 +80,7 @@ const count = ref(0)
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f3f4f6;
+            background-color: white;
             margin: 0;
         }
         .textarea-container {
