@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import Sidebar from '../components/Sidebar.vue'
 
 defineProps({
   msg: String,
@@ -18,6 +19,9 @@ const count = ref(0)
 </script>
 
 <template>
+  <Sidebar />
+
+
   <div class="chat-container">
     <div class="textarea-container">
       <div class="input-wrapper">

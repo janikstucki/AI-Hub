@@ -1,33 +1,45 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const chats = ref([
   { id: 1, title: 'New Chat', model: 'Deepseek' },
   { id: 2, title: 'Second Chat', model: 'ChatGPT' },
   { id: 3, title: 'Third Chat', model: 'Claude' },
-]);
+])
 
 const isEditing = ref(false)
 
 function NewChat() {
-    console.log("new")
-
+  console.log('new')
 }
+
 function EditChat(chat) {
-  chat.isEditing = true;
+  chat.isEditing = true
 }
 
 function SaveChatTitle(chat, event) {
-  chat.title = event.target.value;
-  chat.isEditing = false;
+  chat.title = event.target.value
+  chat.isEditing = false
 }
 
 function DeleteChat(chat) {
-  console.log("delete", chat.id);
-  chats.value = chats.value.filter(c => c.id !== chat.id);
+  console.log('delete', chat.id)
+  chats.value = chats.value.filter(c => c.id !== chat.id)
 }
 
+const login = () => {
+  router.push('/login')
+}
+
+const home = () => {
+  router.push('/')
+}
+const isAuth = false 
 </script>
+
 
 <template>
   <div class="layout">
@@ -90,13 +102,13 @@ function DeleteChat(chat) {
       <hr />
 
       <nav class="menu">
-        <a href="#">Home</a>
-        <a href="#">Settings</a>
-        <a href="#">Logout</a>
-      </nav>
+  <router-link to="/">Home</router-link>
+  <a href="#">Settings</a>
+  <router-link to="/login" v-if="!isAuth">Login</router-link>
+</nav>
     </aside>
 
-    <RouterLink />
+    <router-view />
   </div>
 </template>
 
