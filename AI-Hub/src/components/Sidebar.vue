@@ -31,7 +31,7 @@ function DeleteChat(chat) {
 
 <template>
   <div class="layout">
-   <aside class="sidebar">
+  <aside class="sidebar">
   <div class="header">
     <h2>Chats</h2>
     <button class="icon-button" @click="NewChat">
@@ -62,7 +62,8 @@ function DeleteChat(chat) {
             class="chat-link"
             >
             <div class="chat-row">
-                <span class="chat-title">{{ chat.title }}</span>
+                <span v-if="!chat.isEditing" class="chat-title">{{ chat.title }}</span>
+                <input v-else v-model="chat.title" @keyup.enter="SaveChatTitle(chat, $event)" class="chat-title-input" />
                 <div class="chat-actions">
                 <button class="icon-button" @click="EditChat(chat)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -79,13 +80,7 @@ function DeleteChat(chat) {
                 </div>
             </div>
             <span class="model">({{ chat.model }})</span>
-<span v-if="!chat.isEditing" class="chat-title">{{ chat.title }}</span>
-<input 
-  v-else 
-  v-model="chat.title" 
-@keyup.enter="SaveChatTitle(chat, $event)"
-  class="chat-title-input" 
-/>
+              
             </a>
 
 
@@ -115,7 +110,6 @@ function DeleteChat(chat) {
   overflow: hidden;
 }
 
-/* Sidebar links */
 .sidebar {
   width: 260px;
   background-color: #f9f9f9;
@@ -202,9 +196,6 @@ nav a.router-link-exact-active:hover {
   background-color: transparent;
 }
 
-
-
-
 nav a {
   display: inline-block;
   padding: 0 1rem;
@@ -255,7 +246,7 @@ nav a:first-of-type {
 }
 
 .chat-title {
-  max-width: 140px; /* ggf. anpassen */
+  max-width: 140px; 
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -265,6 +256,13 @@ nav a:first-of-type {
   display: flex;
   gap: 6px;
   flex-shrink: 0;
+}
+
+.chat-title-input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 
