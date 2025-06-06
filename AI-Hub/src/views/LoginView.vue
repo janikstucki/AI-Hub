@@ -1,10 +1,12 @@
 <script setup>
 import { useRouter } from "vue-router";
-import Register from "./Register.vue";
-import { ref } from "vue"
+import { ref } from "vue";
+
+// Reactive Variablen fürs Formular
+const email = ref("");
+const password = ref("");
 
 const router = useRouter();
-
 
 const RouteToRegister = () => {
   router.push("/register");
@@ -12,48 +14,45 @@ const RouteToRegister = () => {
 
 const handleLogin = async () => {
   try {
-    const result = await login(email.value, password.value)
+    // hier kommt dein echter Login-Code rein
+    console.log("Login mit:", email.value, password.value);
+    // await login(email.value, password.value)
   } catch (error) {
-    console.log("Error while logging in:", error)
+    console.log("Error while logging in:", error);
   }
-}
+};
 </script>
 
 <template>
-  <div class="navbar">
-    <button class="backbutton" @click="$router.push('/')">
-
-    </button>
-    <LanguageDropdown/>
-  </div>
   <div id="logincontainer">
     <div class="login-view">
-      <h1>{{ t("buttons.login") }}</h1>
+      <h1>Login</h1>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">{{ t("words.email") }}</label>
+          <label for="email">E-Mail</label>
           <input
             type="email"
             id="email"
             required
-            :placeholder="t('buttons.emailPlaceholder')"
+            placeholder="Deine E-Mail"
             v-model="email"
           />
         </div>
         <div class="form-group">
-          <label for="password">{{ t("words.password") }}</label>
+          <label for="password">Passwort</label>
           <input
             type="password"
             id="password"
             required
-            :placeholder="t('buttons.passwordPlaceholder')"
+            placeholder="Dein Passwort"
             v-model="password"
           />
         </div>
-        <button id="LoginButton" type="submit">{{ t("buttons.login") }}</button>
+        <button id="LoginButton" type="submit">Login</button>
         <button id="RegisterButton" @click="RouteToRegister">
-          {{ t("buttons.register") }}
+          Registrieren
         </button>
+        <button id="backbutton" @click="$router.push('/')">Zurück</button>
       </form>
     </div>
   </div>
@@ -62,8 +61,9 @@ const handleLogin = async () => {
 <style scoped>
 .login-view {
   width: 400px;
-  background-color: #8ac379;
   margin: 0 auto;
+  justify-content: center;
+  align-content: center;
   padding: 20px;
   border-radius: 8px;
   margin-top: 50px;
@@ -94,16 +94,14 @@ input {
   font-size: 1rem;
   border: none;
   border-radius: 4px;
-  background-color: #282c34;
   box-sizing: border-box;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 #LoginButton {
   width: 100%;
   padding: 10px;
-  background-color: #282c34;
-  color: #8ac379;
+  color: #4d6bfe;
   font-size: 1rem;
   border: none;
   border-radius: 4px;
@@ -113,12 +111,24 @@ input {
 #RegisterButton {
   width: 100%;
   padding: 10px;
-  background-color: #8ac379;
+  background-color: #4d6bfe;
   color: #282c34;
   font-size: 1rem;
-  border: 4px solid #282c34;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#backbutton {
+
+    width: 50%;
+  padding: 10px;
+  background-color: #4d6bfe;
+  color: #282c34;
+  font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
 }
 </style>
+y
