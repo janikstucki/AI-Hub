@@ -4,18 +4,26 @@ import { ref } from 'vue';
 const chats = ref([
   { id: 1, title: 'New Chat', model: 'Deepseek' },
   { id: 2, title: 'Second Chat', model: 'ChatGPT' },
-  { id: 3, title: 'Third Chat', model: 'ChatGPT' },
+  { id: 3, title: 'Third Chat', model: 'Claude' },
 ]);
 
+const isEditing = ref(false)
 
 function NewChat() {
     console.log("new")
+
 }
-function EditChat() {
-    console.log("edit")
+function EditChat(chat) {
+  chat.isEditing = true;
 }
+
+function SaveChatTitle(chat, event) {
+  chat.title = event.target.value;
+  chat.isEditing = false;
+}
+
 function DeleteChat() {
-    console.log("delete")
+  console.log("delete");
 }
 </script>
 
@@ -54,7 +62,7 @@ function DeleteChat() {
             <div class="chat-row">
                 <span class="chat-title">{{ chat.title }}</span>
                 <div class="chat-actions">
-                <button class="icon-button" @click="EditChat">
+                <button class="icon-button" @click="EditChat(chat)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
@@ -69,6 +77,13 @@ function DeleteChat() {
                 </div>
             </div>
             <span class="model">({{ chat.model }})</span>
+<span v-if="!chat.isEditing" class="chat-title">{{ chat.title }}</span>
+<input 
+  v-else 
+  v-model="chat.title" 
+@keyup.enter="SaveChatTitle(chat, $event)"
+  class="chat-title-input" 
+/>
             </a>
 
 
