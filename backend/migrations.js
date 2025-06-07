@@ -1,4 +1,20 @@
-import { db } from "./db.js";
+import mysql from 'mysql2/promise';
+import { db } from './db.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
+async function createDatabaseIfNotExists() {
+  const connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+  });
+
+  await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\``);
+  console.log('Database created or already exists! ✅');
+
+  await connection.end();
+}
 
 export async function createTables() {
   try {
@@ -44,4 +60,9 @@ export async function createTables() {
   } catch (err) {
     console.error("Error creating tables:", err);
   }
+}
+
+export async function setup() {
+  await createDatabaseIfNotExists();
+  await createTables();
 }

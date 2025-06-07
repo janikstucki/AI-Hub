@@ -6,7 +6,7 @@ import { createSessionStore } from "./db.js"
 import * as userHandlers from "./handlers/userHandlers.js"
 import * as accesstokenHandlers from "./handlers/accesstokenHandlers.js"
 import * as chatHandlers from "./handlers/chatHandlers.js"
-import { createTables } from "./migrations.js"  // Hier die Tabelle-Check-Funktion importieren
+import { setup } from "./migrations.js"  // setup statt createTables importieren
 dotenv.config()
 
 const app = express()
@@ -32,28 +32,33 @@ app.use(session({
   }
 }))
 
-// Tabellen automatisch erstellen/prüfen beim Start
-createTables()
+async function startServer() {
+  await setup()  // Datenbank & Tabellen sicher erstellen
+  console.log("DB ready, starting server... 🚀")
 
-// Users
-app.get("/getuserdata", userHandlers.getuserdata)
-app.post("/register", userHandlers.register)
-app.post("/login", userHandlers.login)
-app.post("/logout", userHandlers.logout)
-app.delete("/deleteuser", userHandlers.deleteuser)
+  // Hier erst Server starten und Routes einrichten
+  // Users
+  app.get("/getuserdata", userHandlers.getuserdata)
+  app.post("/register", userHandlers.register)
+  app.post("/login", userHandlers.login)
+  app.post("/logout", userHandlers.logout)
+  app.delete("/deleteuser", userHandlers.deleteuser)
 
-// Accesstokens
-app.get("/getaccesstokens", accesstokenHandlers.getAccesstokens)
-app.post("/addaccesstokens", accesstokenHandlers.addAccesstokens)
-app.delete("/deleteaccesstoken", accesstokenHandlers.deleteAccesstoken)
+  // Accesstokens
+  app.get("/getaccesstokens", accesstokenHandlers.getAccesstokens)
+  app.post("/addaccesstokens", accesstokenHandlers.addAccesstokens)
+  app.delete("/deleteaccesstoken", accesstokenHandlers.deleteAccesstoken)
 
-// Chats
-app.get("/getallchats", chatHandlers.getAllChats)
-app.post("/getchat", chatHandlers.getChat)
-app.post("/addchat", chatHandlers.addChat)
-app.delete("/deletechat", chatHandlers.deleteChat)
-app.patch("/renamechat", chatHandlers.renameChat)
-app.post("/addchatmessage", chatHandlers.addChatMessage)
+  // Chats
+  app.get("/getallchats", chatHandlers.getAllChats)
+  app.post("/getchat", chatHandlers.getChat)
+  app.post("/addchat", chatHandlers.addChat)
+  app.delete("/deletechat", chatHandlers.deleteChat)
+  app.patch("/renamechat", chatHandlers.renameChat)
+  app.post("/addchatmessage", chatHandlers.addChatMessage)
 
-const port = process.env.PORT || 3000
-app.listen(port, () => console.log(`Server running on port ${port}`))
+  const port = process.env.PORT || 3000
+  app.listen(port, () => console.log(`Server running on port ${port}`))
+}
+
+startServer()
