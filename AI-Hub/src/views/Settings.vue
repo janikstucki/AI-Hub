@@ -17,12 +17,16 @@ const models = ref([
   { id: 2, title: "Claude", apiKey: "fgfgf" },
 ]);
 
+function EditChat(chat) {
+  chat.isEditing = true;
+}
+
 function SaveModelTitle(chat, event) {
   chat.title = event.target.value;
   chat.isEditing = false;
 }
 
-function DeleteModel(chat) {
+function DeleteChat(chat) {
   const index = models.value.indexOf(chat);
   if (index > -1) {
     models.value.splice(index, 1);
@@ -46,6 +50,8 @@ function handleCreateChat() {
 }
 </script>
 
+
+
 <template>
   <div id="nwcontainer">
     <div class="nwview">
@@ -53,34 +59,31 @@ function handleCreateChat() {
 
       <div class="form-group">
         <label for="email">E-Mail</label>
-        <div class="editable-field">
-          <div class="field-content">
-            <input v-if="isEditingEmail" type="text" id="email" v-model="email" @blur="isEditingEmail = false" />
-            <span v-else>{{ email }}</span>
-          </div>
-          <button class="icon-button" @click="EditChat(chat)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-            </svg>
-          </button>
-        </div>
+<div class="editable-field">
+  <div class="field-content">
+    <input v-if="isEditingEmail" type="text" id="email" v-model="email" @blur="isEditingEmail = false" />
+    <span v-else>{{ email }}</span>
+  </div>
+  <button class="icon-button" @click="isEditingEmail = true">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+    </svg>
+  </button>
+</div>
 
-        <label for="password">Passwort</label>
-        <div class="editable-field">
-          <div class="field-content">
-            <input v-if="isEditingPassword" type="text" id="password" v-model="password" @blur="isEditingPassword = false" />
-            <span v-else>{{ password }}</span>
-          </div>
-          <button class="icon-button" @click="EditChat(chat)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-            </svg>
-          </button>
-        </div>
+<label for="password">Passwort</label>
+<div class="editable-field">
+  <div class="field-content">
+    <input v-if="isEditingPassword" type="text" id="password" v-model="password" @blur="isEditingPassword = false" />
+    <span v-else>{{ password }}</span>
+  </div>
+  <button class="icon-button" @click="isEditingPassword = true">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+    </svg>
+  </button>
+</div>
+
       </div>
       <div v-if="models.length === 0">
         <p>Noch kein Model vorhanden.</p>
