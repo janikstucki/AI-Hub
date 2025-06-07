@@ -106,12 +106,11 @@ function handleCreateChat() {
             <span class="model">({{ chat.model }})</span>
           </a>
         </div>
+        <button id="nwButton" type="submit">Neues Model hinzufügen</button>
 
         <!-- Zurück Button -->
         <button id="Button" type="button" @click="router.push('/')">Zurück</button>
         <!-- Chat erstellen Button -->
-         
-
       </form>
     </div>
   </div>
