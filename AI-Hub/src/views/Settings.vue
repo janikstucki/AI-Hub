@@ -84,7 +84,6 @@ function handleCreateChat() {
                 </button>            
             </div>
           </div>
-          <span class="model">({{ chat.model }})</span>
         </a>
       </div>
 
@@ -239,6 +238,18 @@ input {
   gap: 5px;
 }
 
+.chat-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-link:hover {
+  background-color: #e0e0e0; /* Grau, aber nice smooth */
+}
 
 
 #nwButton {
