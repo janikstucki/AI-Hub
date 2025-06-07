@@ -117,7 +117,6 @@ function handleCreateChat() {
 </template>
 
 <style scoped>
-/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -141,9 +140,8 @@ function handleCreateChat() {
 }
 
 .icon-button:hover svg {
-  stroke: #4d6bfe; /* 👈 schönes Blau fürs Icon */
+  stroke: #4d6bfe; 
 }
-
 
 .close-button {
   position: absolute;
