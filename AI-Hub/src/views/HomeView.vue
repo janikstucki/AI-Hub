@@ -28,7 +28,7 @@ const count = ref(0)
         <textarea
           id="chat-input"
           rows="1"
-          placeholder="Write a message..."
+          placeholder="Schreibe eine Nachricht..."
           oninput="autoResize(this)"
           v-model="message"
 

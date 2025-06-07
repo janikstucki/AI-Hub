@@ -65,7 +65,7 @@ const isAuth = false
             class="chat-link"
             key="no-chats"
           >
-            No chats yet, start a new conversation.
+           Keine Chats, starte eine neue Konversation.
           </a>
         </div> 
 
@@ -106,7 +106,7 @@ const isAuth = false
 
       <nav class="menu">
   <router-link to="/">Home</router-link>
-  <router-link to ="/settings">Settings</router-link>
+  <router-link to ="/settings">Einstellungen</router-link>
   <router-link to="/login" v-if="!isAuth">Login</router-link>
 </nav>
     </aside>

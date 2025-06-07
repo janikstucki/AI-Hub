@@ -61,7 +61,7 @@ function handleCreateChat() {
         <label for="email">E-Mail</label>
 <div class="editable-field">
   <div class="field-content">
-    <input v-if="isEditingEmail" type="text" id="email" v-model="email" @blur="isEditingEmail = false" />
+    <input v-if="isEditingEmail" type="text" id="email" v-model="email" @blur="isEditingEmail = false"  @keyup.enter="isEditingEmail = false"/>
     <span v-else>{{ email }}</span>
   </div>
   <button class="icon-button" @click="isEditingEmail = true">
@@ -74,7 +74,7 @@ function handleCreateChat() {
 <label for="password">Passwort</label>
 <div class="editable-field">
   <div class="field-content">
-    <input v-if="isEditingPassword" type="text" id="password" v-model="password" @blur="isEditingPassword = false" />
+    <input v-if="isEditingPassword" type="text" id="password" v-model="password" @blur="isEditingPassword = false"  @keyup.enter="isEditingEmail = false"/>
     <span v-else>{{ password }}</span>
   </div>
   <button class="icon-button" @click="isEditingPassword = true">
