@@ -220,10 +220,9 @@ input {
   padding: 10px;
   color: #4d6bfe;
   font-size: 1rem;
-  border: 2px solid #4d6bfe;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
-  background: white;
 }
 </style>
