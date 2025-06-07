@@ -33,13 +33,12 @@
             placeholder="Passwort eingeben"
           />
         </div>
-        <button id="RegisterButton" type="submit">
-          Registrieren
-        </button>
-        <button id="LoginButton" type="button" @click="RouteToLogin">
-          Zurück zum Login
-        </button>
+        <button id="RegisterButton" type="submit">Registrieren</button>
+        <button id="LoginButton" type="button" @click="RouteToLogin">Zurück zum Login</button>
       </form>
+
+      <p v-if="errorMessage" style="color: red; margin-top: 1rem;">{{ errorMessage }}</p>
+      <p v-if="successMessage" style="color: green; margin-top: 1rem;">{{ successMessage }}</p>
     </div>
   </div>
 </template>
@@ -49,14 +48,50 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
 const username = ref("");
 const email = ref("");
 const password = ref("");
 
-const handleregister = () => {
-  console.log("Username:", username.value);
-  console.log("Email:", email.value);
-  console.log("Password:", password.value);
+const errorMessage = ref("");
+const successMessage = ref("");
+
+const handleregister = async () => {
+  errorMessage.value = "";
+  successMessage.value = "";
+
+  try {
+    const res = await fetch("http://localhost:3000/register", {
+      method: "POST",
+      credentials: "include", // wichtig für Cookies/Session
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      // Fehler aus Backend anzeigen
+      errorMessage.value = data.error || "Fehler bei der Registrierung";
+      return;
+    }
+
+    successMessage.value = data.message || "Registrierung erfolgreich! Du wirst jetzt weitergeleitet...";
+    
+    // nach kurzer Pause weiterleiten (zB Login oder Home)
+    setTimeout(() => {
+      router.push("/login");
+    }, 1500);
+  } catch (error) {
+    errorMessage.value = "Serverfehler, versuch's später nochmal";
+    console.error(error);
+  }
 };
 
 const RouteToLogin = () => {

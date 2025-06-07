@@ -9,10 +9,37 @@ const password = ref("");
 const handleLogin = async () => {
   try {
     console.log("Login mit:", email.value, password.value);
+
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      credentials: "include",  // wichtig für Cookies/Session
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.log("Login fehlgeschlagen:", data.error);
+      alert("Login failed: " + data.error);
+      return;
+    }
+
+    console.log("Login erfolgreich:", data.message);
+    // Hier kannst du den User z.B. zur Startseite routen:
+    router.push("/");
+
   } catch (error) {
     console.log("Fehler beim Login:", error);
+    alert("Fehler beim Login");
   }
 };
+
 
 const RouteToRegister = () => {
   router.push("/register");
