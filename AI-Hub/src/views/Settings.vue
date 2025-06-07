@@ -81,7 +81,8 @@ function handleCreateChat() {
                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>
 
-                </button>            </div>
+                </button>            
+            </div>
           </div>
           <span class="model">({{ chat.model }})</span>
         </a>
@@ -91,22 +92,28 @@ function handleCreateChat() {
       <button id="Button" type="button" @click="router.push('/')">Zurück</button>
     </div>
 
-    <!-- MODAL -->
-    <div v-if="showModal" class="modal-overlay">
-      <div class="modal-content">
-        <button class="close-button" @click="showModal = false">×</button>
-        <h2>Neues Model hinzufügen</h2>
+<!-- MODAL -->
+<div v-if="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="icon-button close-button" @click="showModal = false">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
 
-        <label for="modelname">Model-Name</label>
-        <input type="text" id="modelname" v-model="newModelName" placeholder="Model-Name" />
+    <h2>Neues Model hinzufügen</h2>
 
-        <label for="apikey">API-Key</label>
-        <input type="text" id="apikey" v-model="newApiKey" placeholder="API-Schlüssel" />
+    <label for="modelname">Model-Name</label>
+    <input type="text" id="modelname" v-model="newModelName" placeholder="Model-Name" />
 
-        <button @click="handleCreateChat">Speichern</button>
-      </div>
-    </div>
+    <label for="apikey">API-Key</label>
+    <input type="text" id="apikey" v-model="newApiKey" placeholder="API-Schlüssel" />
+
+    <button @click="handleCreateChat">Speichern</button>
   </div>
+</div>
+</div>
+
 </template>
 
 <style scoped>
@@ -123,6 +130,26 @@ function handleCreateChat() {
   align-items: center;
   z-index: 1000;
 }
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.icon-button:hover svg {
+  stroke: #4d6bfe; /* 👈 schönes Blau fürs Icon */
+}
+
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+}
 
 .modal-content {
   background: #fff;
@@ -133,21 +160,6 @@ function handleCreateChat() {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   position: relative;
 }
-
-.close-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* Restliches Styling anpassen wie gewünscht */
-
-
-
 
 html,
 body {
@@ -229,11 +241,7 @@ input {
   gap: 5px;
 }
 
-.icon-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
+
 
 #nwButton {
   width: 100%;
