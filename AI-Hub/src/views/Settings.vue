@@ -13,8 +13,8 @@ const newModelName = ref("");
 const newApiKey = ref("");
 
 const models = ref([
-  { id: 1, title: "Chat-GPT", apiKey: "1231321", isEditing: false },
-  { id: 2, title: "Claude", apiKey: "fgfgf}", isEditing: false },
+  { id: 1, title: "Chat-GPT", apiKey: "1231321" },
+  { id: 2, title: "Claude", apiKey: "fgfgf" },
 ]);
 
 function SaveModelTitle(chat, event) {
@@ -36,29 +36,13 @@ function handleCreateChat() {
   models.value.push({
     id: newId,
     title: newModelName.value,
-    apiKey: newApiKey.value,
+    model: "custom",
     isEditing: false,
   });
 
   newModelName.value = "";
   newApiKey.value = "";
   showModal.value = false;
-}
-
-function saveEmail() {
-  isEditingEmail.value = false;
-}
-
-function savePassword() {
-  isEditingPassword.value = false;
-}
-
-function editEmail() {
-  isEditingEmail.value = true;
-}
-
-function editPassword() {
-  isEditingPassword.value = true;
 }
 </script>
 
@@ -69,51 +53,21 @@ function editPassword() {
 
       <div class="form-group">
         <label for="email">E-Mail</label>
-        <div class="input-edit-wrapper">
-          <button class="icon-button" @click="editEmail" aria-label="Email bearbeiten">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/>
-            </svg>
+        <div class="editable-field">
+          <input v-if="isEditingEmail" type="text" id="email" v-model="email" @blur="isEditingEmail = false" />
+          <span v-else>{{ email }}</span>
+          <button class="icon-button" @click="isEditingEmail = true">
+            ✏️
           </button>
-          <input
-            v-if="isEditingEmail"
-            type="text"
-            id="email"
-            v-model="email"
-            @keyup.enter="saveEmail"
-            @blur="saveEmail"
-          />
-          <input
-            v-else
-            type="text"
-            id="email"
-            v-model="email"
-            readonly
-          />
         </div>
 
         <label for="password">Passwort</label>
-        <div class="input-edit-wrapper">
-          <button class="icon-button" @click="editPassword" aria-label="Passwort bearbeiten">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/>
-            </svg>
+        <div class="editable-field">
+          <input v-if="isEditingPassword" type="text" id="password" v-model="password" @blur="isEditingPassword = false" />
+          <span v-else>{{ password }}</span>
+          <button class="icon-button" @click="isEditingPassword = true">
+            ✏️
           </button>
-          <input
-            v-if="isEditingPassword"
-            type="text"
-            id="password"
-            v-model="password"
-            @keyup.enter="savePassword"
-            @blur="savePassword"
-          />
-          <input
-            v-else
-            type="password"
-            id="password"
-            v-model="password"
-            readonly
-          />
         </div>
       </div>
 
@@ -135,18 +89,13 @@ function editPassword() {
               v-model="chat.title"
               @keyup.enter="SaveModelTitle(chat, $event)"
               class="chat-title-input"
-              @blur="SaveModelTitle(chat, $event)"
             />
             <div class="chat-actions">
               <button class="icon-button" @click="chat.isEditing = true">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/>
-                </svg>
+                ✏️
               </button>
               <button class="icon-button" @click="DeleteModel(chat)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                </svg>
+                🗑️
               </button>
             </div>
           </div>
@@ -157,27 +106,28 @@ function editPassword() {
       <button id="Button" type="button" @click="router.push('/')">Zurück</button>
     </div>
 
-    <!-- POPUP FÜR NEUES MODEL -->
-    <div v-if="showModal" class="modal-overlay">
-      <div class="modal-content">
-        <button class="icon-button close-button" @click="showModal = false">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+<!-- POPUP FÜR NEUES MODEL -->
+<div v-if="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="icon-button close-button" @click="showModal = false">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
 
-        <h2>Neues Model hinzufügen</h2>
+    <h2>Neues Model hinzufügen</h2>
 
-        <label for="modelname">Model-Name</label>
-        <input type="text" id="modelname" v-model="newModelName" placeholder="Model-Name" />
+    <label for="modelname">Model-Name</label>
+    <input type="text" id="modelname" v-model="newModelName" placeholder="Model-Name" />
 
-        <label for="apikey">API-Key</label>
-        <input type="text" id="apikey" v-model="newApiKey" placeholder="API-Schlüssel" />
+    <label for="apikey">API-Key</label>
+    <input type="text" id="apikey" v-model="newApiKey" placeholder="API-Schlüssel" />
 
-        <button id="nwButton" @click="handleCreateChat">Speichern</button>
-      </div>
-    </div>
+    <button id="nwButton" @click="handleCreateChat">Speichern</button>
   </div>
+</div>
+</div>
+
 </template>
 
 <style scoped>
@@ -204,7 +154,7 @@ function editPassword() {
 }
 
 .icon-button:hover svg {
-  stroke: #4d6bfe;
+  stroke: #4d6bfe; 
 }
 
 .close-button {
@@ -272,101 +222,71 @@ label {
   color: black;
 }
 
-.input-edit-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 15px;
-}
-
 input {
-  flex: 1;
+  width: 100%;
   padding: 10px;
   font-size: 1rem;
   border: none;
   color: rgb(0, 0, 0);
-  border-radius: 6px;
-  background-color: #eaeaea;
-  font-weight: 600;
-  outline: none;
-}
-
-input[readonly] {
-  background-color: #d3d3d3;
-  cursor: default;
-}
-
-.chat-link {
-  display: block;
-  text-decoration: none;
-  color: #333;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  padding: 10px 12px;
-  transition: background-color 0.2s ease;
-}
-
-.chat-link:hover {
-  background-color: #f0f0f0;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .chat-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 0;
+}
+
+.chat-title {
+  font-weight: 600;
 }
 
 .chat-title-input {
-  font-weight: 600;
-  padding: 6px 8px;
-  border: none;
-  border-radius: 4px;
   width: 70%;
-  font-size: 1rem;
-  background-color: #eaeaea;
-  outline: none;
+  padding: 5px;
 }
 
-.chat-actions button {
-  margin-left: 8px;
+.chat-actions {
+  display: flex;
+  gap: 5px;
 }
+
+.chat-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-link:hover {
+  background-color: #e0e0e0; 
+}
+
 
 #nwButton {
-  margin-top: 20px;
-  padding: 10px 14px;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
+  width: 100%;
+  padding: 10px;
   background-color: #4d6bfe;
   color: white;
+  font-size: 1rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#nwButton:hover {
-  background-color: #3b55d4;
+  border: none;
+  margin-top: 10px;
 }
 
 #Button {
-  margin-top: 12px;
-  padding: 8px 12px;
-  font-weight: 600;
+  width: 100%;
+  padding: 10px;
+  color: #4d6bfe;
   font-size: 1rem;
   border: none;
-  border-radius: 10px;
-  background-color: #888;
-  color: white;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#Button:hover {
-  background-color: #666;
-}
-
-.size-6 {
-  width: 24px;
-  height: 24px;
+  margin-top: 10px;
 }
 </style>
