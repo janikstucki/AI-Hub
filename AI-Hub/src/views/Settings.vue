@@ -11,7 +11,7 @@ const newApiKey = ref("");
 
 const models = ref([
     {id: 1, title: "Chat-GPT", apiKey: "1231321"},
-    {id: 1, title: "Chat-GPT", apiKey: "fgfgf}"},
+    {id: 1, title: "Claude", apiKey: "fgfgf}"},
 ])
 
 function SaveModelTitle(chat, event) {
@@ -108,7 +108,7 @@ function handleCreateChat() {
     <label for="apikey">API-Key</label>
     <input type="text" id="apikey" v-model="newApiKey" placeholder="API-Schlüssel" />
 
-    <button @click="handleCreateChat">Speichern</button>
+    <button id="nwButton" @click="handleCreateChat">Speichern</button>
   </div>
 </div>
 </div>
