@@ -9,10 +9,10 @@ const showModal = ref(false);
 const newModelName = ref("");
 const newApiKey = ref("");
 
-const chats = ref([
-  { id: 1, title: "Erster Chat", model: "gpt-4", isEditing: false },
-  { id: 2, title: "Zweiter Chat", model: "claude", isEditing: false },
-]);
+const models = ref([
+    {id: 1, title: "Chat-GPT", apiKey: "1231321"},
+    {id: 1, title: "Chat-GPT", apiKey: "fgfgf}"},
+])
 
 function SaveModelTitle(chat, event) {
   chat.title = event.target.value;
@@ -20,17 +20,17 @@ function SaveModelTitle(chat, event) {
 }
 
 function DeleteModel(chat) {
-  const index = chats.value.indexOf(chat);
+  const index = models.value.indexOf(chat);
   if (index > -1) {
-    chats.value.splice(index, 1);
+    models.value.splice(index, 1);
   }
 }
 
 function handleCreateChat() {
   if (!newModelName.value || !newApiKey.value) return;
 
-  const newId = chats.value.length + 1;
-  chats.value.push({
+  const newId = models.value.length + 1;
+  models.value.push({
     id: newId,
     title: newModelName.value,
     model: "custom",
@@ -56,13 +56,13 @@ function handleCreateChat() {
         <input type="password" id="password" v-model="password" />
       </div>
 
-      <div v-if="chats.length === 0">
+      <div v-if="models.length === 0">
         <p>Noch kein Model vorhanden.</p>
       </div>
 
       <div v-else>
         <a
-          v-for="chat in chats.sort((a, b) => a.id - b.id)"
+          v-for="chat in models.sort((a, b) => a.id - b.id)"
           :key="chat.id"
           href="#"
           class="chat-link"
@@ -91,7 +91,7 @@ function handleCreateChat() {
       <button id="Button" type="button" @click="router.push('/')">Zurück</button>
     </div>
 
-<!-- MODAL -->
+<!-- POPUP FÜR NEUES MODEL -->
 <div v-if="showModal" class="modal-overlay">
   <div class="modal-content">
     <button class="icon-button close-button" @click="showModal = false">
@@ -248,7 +248,7 @@ input {
 }
 
 .chat-link:hover {
-  background-color: #e0e0e0; /* Grau, aber nice smooth */
+  background-color: #e0e0e0; 
 }
 
 
