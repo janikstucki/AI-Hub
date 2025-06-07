@@ -2,7 +2,6 @@
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 
-// Reactive Variablen fürs Formular
 const email = ref("");
 const password = ref("");
 
@@ -14,18 +13,16 @@ const RouteToRegister = () => {
 
 const handleLogin = async () => {
   try {
-    // hier kommt dein echter Login-Code rein
     console.log("Login mit:", email.value, password.value);
-    // await login(email.value, password.value)
   } catch (error) {
-    console.log("Error while logging in:", error);
+    console.log("Fehler beim Login:", error);
   }
 };
 </script>
 
 <template>
-  <div id="logincontainer">
-    <div class="login-view">
+  <div class="page-wrapper">
+    <div class="login-box">
       <h1>Login</h1>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -48,87 +45,77 @@ const handleLogin = async () => {
             v-model="password"
           />
         </div>
-        <button id="LoginButton" type="submit">Login</button>
-        <button id="RegisterButton" @click="RouteToRegister">
-          Registrieren
-        </button>
-        <button id="backbutton" @click="$router.push('/')">Zurück</button>
+        <button type="submit">Login</button>
+        <button type="button" @click="RouteToRegister">Registrieren</button>
+        <button type="button" @click="$router.push('/')">Zurück</button>
       </form>
     </div>
   </div>
 </template>
 
 <style scoped>
-.login-view {
-  width: 400px;
-  margin: 0 auto;
+.page-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
   justify-content: center;
-  align-content: center;
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 50px;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+
+.login-box {
+  max-width: 400px;
+  width: 100%;
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.5rem;
-  color: #333;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: black;
+  margin-bottom: 6px;
 }
 
 input {
   width: 100%;
   padding: 10px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
   box-sizing: border-box;
-  color: rgb(0, 0, 0);
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
-#LoginButton {
+button {
   width: 100%;
   padding: 10px;
-  color: #4d6bfe;
-  font-size: 1rem;
+  margin-top: 10px;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#RegisterButton {
-  width: 100%;
-  padding: 10px;
   background-color: #4d6bfe;
-  color: #282c34;
-  font-size: 1rem;
+  color: white;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 10px;
-}
-
-#backbutton {
-
-    width: 50%;
-  padding: 10px;
-  background-color: #4d6bfe;
-  color: #282c34;
-  font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
 }
 </style>
-y
+
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+</style>

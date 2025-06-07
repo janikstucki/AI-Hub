@@ -1,23 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-const username = ref("");
-const email = ref("");
-const password = ref("");
-
-const handleregister = () => {
-  console.log("Username:", username.value);
-  console.log("Email:", email.value);
-  console.log("Password:", password.value);
-};
-
-const RouteToLogin = () => {
-  router.push("/login");
-};
-</script>
-
 <template>
   <div id="registercontainer">
     <div class="register-view">
@@ -64,18 +44,54 @@ const RouteToLogin = () => {
   </div>
 </template>
 
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const username = ref("");
+const email = ref("");
+const password = ref("");
+
+const handleregister = () => {
+  console.log("Username:", username.value);
+  console.log("Email:", email.value);
+  console.log("Password:", password.value);
+};
+
+const RouteToLogin = () => {
+  router.push("/login");
+};
+</script>
+
 <style scoped>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 #registercontainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 }
 
 .register-view {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   padding: 20px;
   border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
