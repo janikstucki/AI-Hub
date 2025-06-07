@@ -2,121 +2,153 @@
 import { ref } from "vue";
 import router from "@/router";
 
-// Form-Felder
 const email = ref("email@test");
 const password = ref("starkespasswort");
 
-// Modell-Auswahl (wenn du die später brauchst)
-const models = ["gpt-3", "gpt-4", "claude"];
+const showModal = ref(false);
+const newModelName = ref("");
+const newApiKey = ref("");
 
-// Beispielhafte Chat-Daten
 const chats = ref([
   { id: 1, title: "Erster Chat", model: "gpt-4", isEditing: false },
   { id: 2, title: "Zweiter Chat", model: "claude", isEditing: false },
 ]);
 
-// Chat bearbeiten aktivieren
-function EditChat(chat) {
-  chat.isEditing = true;
-}
-
-// Chat-Titel speichern
-function SaveChatTitle(chat, event) {
+function SaveModelTitle(chat, event) {
   chat.title = event.target.value;
   chat.isEditing = false;
 }
 
-// Chat löschen
-function DeleteChat(chat) {
+function DeleteModel(chat) {
   const index = chats.value.indexOf(chat);
   if (index > -1) {
     chats.value.splice(index, 1);
   }
 }
 
-// Chat erstellen (Dummy-Logik)
 function handleCreateChat() {
+  if (!newModelName.value || !newApiKey.value) return;
+
   const newId = chats.value.length + 1;
   chats.value.push({
     id: newId,
-    title: `Neuer Chat ${newId}`,
-    model: models[0],
+    title: newModelName.value,
+    model: "custom",
     isEditing: false,
   });
+
+  newModelName.value = "";
+  newApiKey.value = "";
+  showModal.value = false;
 }
 </script>
 
 <template>
   <div id="nwcontainer">
     <div class="nwview">
-      <h1>Neuer Chat</h1>
-      <form @submit.prevent="handleCreateChat">
-        <div class="form-group">
-          <label for="email">E-Mail</label>
-          <input
-            type="text"
-            id="email"
-            v-model="email"
-            required
-            :placeholder="email"
-          />
+      <h1>Model-Verwaltung</h1>
 
-          <label for="password">Passwort</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            :placeholder="password"
-          />
-        </div>
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="text" id="email" v-model="email" />
 
-        <!-- Keine Chats -->
-        <div v-if="chats.length === 0">
-          <a href="#" class="chat-link" key="no-chats">
-            Noch keine Chats vorhanden, starte eine neue Unterhaltung.
-          </a>
-        </div>
+        <label for="password">Passwort</label>
+        <input type="password" id="password" v-model="password" />
+      </div>
 
-        <!-- Chat-Liste -->
-        <div v-else>
-          <a
-            v-for="chat in chats.sort((a, b) => a.id - b.id)"
-            :key="chat.id"
-            href="#"
-            class="chat-link"
-          >
-            <div class="chat-row">
-              <span v-if="!chat.isEditing" class="chat-title">{{ chat.title }}</span>
-              <input
-                v-else
-                v-model="chat.title"
-                @keyup.enter="SaveChatTitle(chat, $event)"
-                class="chat-title-input"
-              />
-              <div class="chat-actions">
-                 <button class="icon-button" @click="DeleteChat(chat)">
+      <div v-if="chats.length === 0">
+        <p>Noch kein Model vorhanden.</p>
+      </div>
+
+      <div v-else>
+        <a
+          v-for="chat in chats.sort((a, b) => a.id - b.id)"
+          :key="chat.id"
+          href="#"
+          class="chat-link"
+        >
+          <div class="chat-row">
+            <span v-if="!chat.isEditing">{{ chat.title }}</span>
+            <input
+              v-else
+              v-model="chat.title"
+              @keyup.enter="SaveModelTitle(chat, $event)"
+              class="chat-title-input"
+            />
+            <div class="chat-actions">
+                <button class="icon-button" @click="DeleteModel(chat)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>
 
-                </button>
-              </div>
-            </div>
-            <span class="model">({{ chat.model }})</span>
-          </a>
-        </div>
-        <button id="nwButton" type="submit">Neues Model hinzufügen</button>
+                </button>            </div>
+          </div>
+          <span class="model">({{ chat.model }})</span>
+        </a>
+      </div>
 
-        <!-- Zurück Button -->
-        <button id="Button" type="button" @click="router.push('/')">Zurück</button>
-        <!-- Chat erstellen Button -->
-      </form>
+      <button id="nwButton" @click="showModal = true">Neues Model hinzufügen</button>
+      <button id="Button" type="button" @click="router.push('/')">Zurück</button>
+    </div>
+
+    <!-- MODAL -->
+    <div v-if="showModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="close-button" @click="showModal = false">×</button>
+        <h2>Neues Model hinzufügen</h2>
+
+        <label for="modelname">Model-Name</label>
+        <input type="text" id="modelname" v-model="newModelName" placeholder="Model-Name" />
+
+        <label for="apikey">API-Key</label>
+        <input type="text" id="apikey" v-model="newApiKey" placeholder="API-Schlüssel" />
+
+        <button @click="handleCreateChat">Speichern</button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  min-width: 300px;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Restliches Styling anpassen wie gewünscht */
+
+
+
+
 html,
 body {
   margin: 0;
