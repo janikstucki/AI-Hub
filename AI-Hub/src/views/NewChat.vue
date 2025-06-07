@@ -18,6 +18,10 @@ function handleCreateChat() {
   // Nach Erfolg z.B. zurück zur Startseite oder Popup schließen
   router.push('/'); 
 }
+
+function NewChat ()  {
+
+}
 </script>
 
 <template>
@@ -45,7 +49,7 @@ function handleCreateChat() {
             </select>
 
         </div>
-        <button id="nwButton" type="submit">Chat erstellen</button>
+        <button id="nwButton" type="submit" @click="NewChat">Chat erstellen</button>
         <button id="Button" type="button" @click="router.push('/')">Zurück</button>
       </form>
     </div>

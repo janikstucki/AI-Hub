@@ -106,7 +106,7 @@ const isAuth = false
 
       <nav class="menu">
   <router-link to="/">Home</router-link>
-  <a href="#">Settings</a>
+  <router-link to ="/settings">Settings</router-link>
   <router-link to="/login" v-if="!isAuth">Login</router-link>
 </nav>
     </aside>

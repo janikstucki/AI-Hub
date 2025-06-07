@@ -4,7 +4,7 @@ import Home from '../views/HomeView.vue'
 import Login from '../views/LoginView.vue'
 import Register from '../views/Register.vue'
 import NewChat from '@/views/NewChat.vue'
-
+import Settings from '../views/Settings.vue'
 const routes = [
     {
       path: '/',
@@ -25,6 +25,11 @@ const routes = [
       path: '/newchat',
       name: 'newchat',
       component: NewChat
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
     },
   ]
 
