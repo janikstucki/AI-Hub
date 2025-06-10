@@ -16,11 +16,10 @@ const messages = ref([
 const submitMessage = () => {
   if (message.value.trim() === '') return
 
-  // Push User Message
   messages.value.push({ role: 'user', content: message.value })
   message.value = ''
 
-  // Simulierte Bot-Antwort
+
   setTimeout(() => {
     messages.value.push({ role: 'assistant', content: 'Das ist eine automatisch generierte Antwort 🤖' })
     scrollToBottom()
@@ -35,7 +34,6 @@ const handleEnter = (e) => {
   submitMessage()
 }
 
-// Automatisch scrollen
 const scrollToBottom = () => {
   nextTick(() => {
     const container = document.querySelector('.chat-messages')
@@ -45,10 +43,10 @@ const scrollToBottom = () => {
 </script>
 
 <template>
+  
   <Sidebar />
 
   <div class="chat-container">
-    <!-- Chatverlauf -->
     <div class="chat-messages" style="margin-bottom: 140px;">
       <div
         v-for="(msg, index) in messages"
@@ -59,7 +57,6 @@ const scrollToBottom = () => {
       </div>
     </div>
 
-    <!-- Eingabefeld -->
     <div class="textarea-container">
       <div class="input-wrapper">
         <textarea
