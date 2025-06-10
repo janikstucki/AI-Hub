@@ -198,7 +198,7 @@ input {
   padding: 0;
 }
 
-.BackButton:hover {
+#BackButton:hover {
   color: #2563eb;
 }
 
