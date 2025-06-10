@@ -99,7 +99,6 @@ onMounted(async () => {
       <hr />
 
       <nav class="menu">
-        <router-link to="/">Home</router-link>
         <router-link to="/settings">Einstellungen</router-link>
 
         <button v-if="LoggedIn" @click="handleLogout" class="logout-button">Logout</button>
@@ -197,7 +196,6 @@ onMounted(async () => {
   font-size: 0.8em;
   color: #666;
 }
-
 
 .chat-link-btn {
   color: #000;
