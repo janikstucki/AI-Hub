@@ -43,11 +43,11 @@ const scrollToBottom = () => {
 </script>
 
 <template>
-  
+
   <Sidebar />
 
   <div class="chat-container">
-    <div class="chat-messages" style="margin-bottom: 140px;">
+    <div class="chat-messages" style="margin-bottom: 10px;">
       <div
         v-for="(msg, index) in messages"
         :key="index"
