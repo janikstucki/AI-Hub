@@ -1,7 +1,14 @@
 <template>
   <div id="registercontainer">
+          <button id="BackButton">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+</svg>
+
+      </button>
     <div class="register-view">
       <h1>Registrieren</h1>
+
       <form @submit.prevent="handleregister">
         <div class="form-group">
           <label for="username">Benutzername</label>
@@ -180,4 +187,19 @@ input {
   cursor: pointer;
   margin-top: 10px;
 }
+
+#BackButton {
+  position: absolute;
+  top: 20px; 
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.BackButton:hover {
+  color: #2563eb;
+}
+
 </style>
