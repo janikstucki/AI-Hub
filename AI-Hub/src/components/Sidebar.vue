@@ -1,29 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAllChats, deleteChat } from '@/api/routes/chatRoutes'
+import { isLoggedIn, logout } from '@/api/routes/userRoutes'
 
 const router = useRouter()
-
-const chats = ref([
-  { id: 1, title: 'New Chat', model: 'Deepseek' },
-  { id: 2, title: 'Second Chat', model: 'ChatGPT' },
-  { id: 3, title: 'Third Chat', model: 'Claude' },
-])
-
+const chats = ref([])
 const isEditing = ref(false)
-const isAuth = ref(false)
+const LoggedIn = ref(false)
 
-// Check, ob User eingeloggt ist (Token im localStorage)
-onMounted(() => {
-  isAuth.value = !!localStorage.getItem('token')
-  localStorage.setItem('token', 'dein-token')
-
-})
-
-// Funktionen für Chat (wie bei dir)
 function NewChat() {
-  console.log('new')
-  // newchatWindow (du musst hier evtl. noch was machen)
+  router.push("/newchat")
 }
 
 function EditChat(chat) {
@@ -35,30 +22,31 @@ function SaveChatTitle(chat, event) {
   chat.isEditing = false
 }
 
-function DeleteChat(chat) {
-  console.log('delete', chat.id)
-  chats.value = chats.value.filter(c => c.id !== chat.id)
+async function DeleteChat(chatid) {
+  await deleteChat(chatid)
 }
 
-// Login-Router (geht zur Login-Seite)
 const login = () => {
   router.push('/login')
 }
 
-// Home-Router
-const home = () => {
-  router.push('/')
+const handleLogout = async () => {
+  await logout()
 }
 
-// Logout-Funktion
-const logout = () => {
-  localStorage.removeItem('token') // Token löschen = ausgeloggt
-  isAuth.value = false
-  router.push('/login')
-}
+onMounted(async () => {
+  chats.value = await getAllChats()
+  console.log(chats.value.chats)
+
+  const response = await isLoggedIn()
+  if (response) {
+    LoggedIn.value = response.loggedin
+  }
+})
 </script>
 
 <template>
+  <div style="color: black">{{ LoggedIn + "|" + chats}}</div>
   <div class="layout">
     <aside class="sidebar">
       <div class="header">
@@ -110,8 +98,7 @@ const logout = () => {
         <router-link to="/">Home</router-link>
         <router-link to="/settings">Einstellungen</router-link>
 
-        <!-- Wenn eingeloggt: Logout-Button, sonst Login-Link -->
-        <button v-if="isAuth" @click="logout" class="logout-button">Logout</button>
+        <button v-if="LoggedIn" @click="handleLogout" class="logout-button">Logout</button>
         <router-link v-else to="/login">Login</router-link>
       </nav>
     </aside>
@@ -120,7 +107,7 @@ const logout = () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Deine Styles ... */
 .logout-button {
   background-color: #f33;

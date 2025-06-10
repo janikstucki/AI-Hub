@@ -1,3 +1,37 @@
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { register } from "@/api/routes/userRoutes.js"
+
+const router = useRouter();
+
+const username = ref("");
+const email = ref("");
+const password = ref("");
+
+const errorMessage = ref("");
+const successMessage = ref("");
+
+const handleregister = async () => {
+  errorMessage.value = "";
+  successMessage.value = "";
+
+  const response = await register(username.value, email.value, password.value)
+
+  if (!response.success) {
+    errorMessage.value = response.error || "Fehler bei der Registrierung";
+    return;
+  }
+
+  successMessage.value = response.message || "Registrierung erfolgreich! Du wirst jetzt weitergeleitet...";
+    
+  router.push("/login");
+};
+
+const RouteToLogin = () => {
+  router.push("/login");
+};
+</script>
 <template>
   <div id="registercontainer">
     <div class="register-view">
@@ -43,61 +77,6 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-
-const username = ref("");
-const email = ref("");
-const password = ref("");
-
-const errorMessage = ref("");
-const successMessage = ref("");
-
-const handleregister = async () => {
-  errorMessage.value = "";
-  successMessage.value = "";
-
-  try {
-    const res = await fetch("http://localhost:3000/register", {
-      method: "POST",
-      credentials: "include", // wichtig für Cookies/Session
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      // Fehler aus Backend anzeigen
-      errorMessage.value = data.error || "Fehler bei der Registrierung";
-      return;
-    }
-
-    successMessage.value = data.message || "Registrierung erfolgreich! Du wirst jetzt weitergeleitet...";
-    
-    // nach kurzer Pause weiterleiten (zB Login oder Home)
-    setTimeout(() => {
-      router.push("/login");
-    }, 1500);
-  } catch (error) {
-    errorMessage.value = "Serverfehler, versuch's später nochmal";
-    console.error(error);
-  }
-};
-
-const RouteToLogin = () => {
-  router.push("/login");
-};
-</script>
 
 <style scoped>
 html,
