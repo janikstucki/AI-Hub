@@ -100,15 +100,19 @@ const scrollToBottom = () => {
   position: fixed;
   top: 20px;
   bottom: 160px;
-  left: 50%;
+  left: 58%;
+  right: 0%;
   transform: translateX(-50%);
-  width: 60%;
+  width: 70%;
   overflow-y: auto;
   padding: 10px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
+
+
 
 .chat-bubble {
   max-width: 75%;

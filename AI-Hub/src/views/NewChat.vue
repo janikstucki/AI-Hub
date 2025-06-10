@@ -5,17 +5,13 @@ import router from '@/router';
 const nwName = ref('');
 const nwModel = ref('');
 
-const models = ['gpt-3', 'gpt-4', 'claude'];
-
 function handleCreateChat() {
   if (!nwName.value.trim() || !nwModel.value.trim()) {
     alert('Bitte Chat-Name und Model ausfüllen!');
     return;
   }
-  // Hier machst du was mit den Daten, z.B. API call oder State update
   console.log('Neuer Chat erstellt:', nwName.value, nwModel.value);
 
-  // Nach Erfolg z.B. zurück zur Startseite oder Popup schließen
   router.push('/'); 
 }
 
@@ -40,14 +36,14 @@ function NewChat ()  {
           />
         </div>
         <div class="form-group">
-          <label for="model">Model</label>
-            <select v-model="nwModel" required>
-            <option value="" disabled>Wähle ein Model</option>
-            <option v-for="model in models" :key="model" :value="model">
-                {{ model }}
-            </option>
-            </select>
-
+          <label for="chatName">Chat-Model</label>
+          <input
+            type="text"
+            id="chatModel"
+            v-model="nwModel"
+            required
+            placeholder="URL"
+          />
         </div>
         <button id="nwButton" type="submit" @click="NewChat">Chat erstellen</button>
         <button id="Button" type="button" @click="router.push('/')">Zurück</button>
@@ -63,6 +59,24 @@ body {
   padding: 0;
   height: 100%;
 }
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc; 
+  color: rgb(0, 0, 0);
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  border-color: #4d6bfe;
+  box-shadow: 0 0 0 3px #4d6bfe;
+  outline: none;
+}
+
 
 #nwcontainer {
   position: fixed;
