@@ -30,6 +30,12 @@ const RouteToHome = () => {
 
 <template>
   <div id="logincontainer">
+              <button id="BackButton" @click="router.push('/')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+</svg>
+
+      </button>
     <div class="login-view">
       <h1>Login</h1>
       <form @submit.prevent="handleLogin">
@@ -55,8 +61,9 @@ const RouteToHome = () => {
         </div>
         <button id="LoginButton" type="submit">Login</button>
         <button id="Button" type="button" @click="RouteToRegister">Registrieren</button>
-        <button id="Button" type="button" @click="RouteToHome">Zurück</button>
+        <!-- <button id="Button" type="button" @click="RouteToHome">Zurück</button> -->
       </form>
+
     </div>
   </div>
 </template>
@@ -125,7 +132,7 @@ input {
   width: 100%;
   padding: 10px;
   background-color: #4d6bfe;
-  color: #282c34;
+  color: #f0f0f0;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -141,5 +148,19 @@ input {
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
+}
+
+#BackButton {
+  position: absolute;
+  top: 20px; 
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+#BackButton:hover {
+  color: #2563eb;
 }
 </style>

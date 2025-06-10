@@ -34,8 +34,15 @@ const RouteToLogin = () => {
 </script>
 <template>
   <div id="registercontainer">
+              <button id="BackButton" @click="router.push('/')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+</svg>
+
+      </button>
     <div class="register-view">
       <h1>Registrieren</h1>
+
       <form @submit.prevent="handleregister">
         <div class="form-group">
           <label for="username">Benutzername</label>
@@ -68,7 +75,7 @@ const RouteToLogin = () => {
           />
         </div>
         <button id="RegisterButton" type="submit">Registrieren</button>
-        <button id="LoginButton" type="button" @click="RouteToLogin">Zurück zum Login</button>
+        <button id="LoginButton" type="button" @click="RouteToLogin">Login</button>
       </form>
 
       <p v-if="errorMessage" style="color: red; margin-top: 1rem;">{{ errorMessage }}</p>
@@ -142,7 +149,7 @@ input {
   width: 100%;
   padding: 10px;
   background-color: #4d6bfe;
-  color: #282c34;
+  color: #f0f0f0;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -159,4 +166,19 @@ input {
   cursor: pointer;
   margin-top: 10px;
 }
+
+#BackButton {
+  position: absolute;
+  top: 20px; 
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+#BackButton:hover {
+  color: #2563eb;
+}
+
 </style>
