@@ -25,7 +25,7 @@ const handleregister = async () => {
 
   successMessage.value = response.message || "Registrierung erfolgreich! Du wirst jetzt weitergeleitet...";
     
-  router.push("/login");
+  router.push("/");
 };
 
 const RouteToLogin = () => {
