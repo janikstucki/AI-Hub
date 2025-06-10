@@ -1,30 +1,31 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, nextTick } from 'vue'
 import Sidebar from '../components/Sidebar.vue'
-
-defineProps({
-  msg: String,
-})
+import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 
 const message = ref('')
 const messages = ref([
   { role: 'assistant', content: 'Hey! Wie kann ich dir helfen? 😄' },
   { role: 'user', content: 'Kannst du mir was über Vue sagen?' },
-  { role: 'assistant', content: 'Na klar! Vue ist ein progressives JS-Framework ✨' }
+  { role: 'assistant', content: 'Na klar! **Vue** ist ein _progressives_ JS-Framework ✨' },
+
+  { role: 'user', content: '# Titel\nDas ist ein Test mit Markdown.\n- Punkt 1\n- Punkt 2' },
+  { role: 'assistant', content: '# Titel\nDas ist ein Test mit Markdown.\n- Punkt 1\n- Punkt 2' },
+  { role: 'assistant', content: '> Dies ist ein Zitat.\n\nUnd ein [Link](https://vuejs.org)' },
+  { role: 'user', content: 'Ich bin *nicht sicher*, ob das funktioniert 🤔' },
+  { role: 'assistant', content: 'Kein Markdown hier, einfach nur Text.' },
+  { role: 'user', content: '`console.log("Hello World")` zeigt etwas im Terminal an.' },
 ])
 
 const submitMessage = () => {
   if (message.value.trim() === '') return
-
   messages.value.push({ role: 'user', content: message.value })
   message.value = ''
-
-
   setTimeout(() => {
     messages.value.push({ role: 'assistant', content: 'Das ist eine automatisch generierte Antwort 🤖' })
     scrollToBottom()
   }, 800)
-
   scrollToBottom()
 }
 
@@ -40,10 +41,14 @@ const scrollToBottom = () => {
     if (container) container.scrollTop = container.scrollHeight
   })
 }
+
+const renderAssistantMarkdown = (text) => {
+  const dirty = marked.parse(text)
+  return DOMPurify.sanitize(dirty)
+}
 </script>
 
 <template>
-
   <Sidebar />
 
   <div class="chat-container">
@@ -53,7 +58,14 @@ const scrollToBottom = () => {
         :key="index"
         :class="['chat-bubble', msg.role === 'user' ? 'bubble-user' : 'bubble-bot']"
       >
-        {{ msg.content }}
+        <template v-if="msg.role === 'assistant'">
+          <!-- Assistant mit Markdown gerendert -->
+          <div v-html="renderAssistantMarkdown(msg.content)"></div>
+        </template>
+        <template v-else>
+          <!-- User: reiner Text, kein Rendering -->
+          <div>{{ msg.content }}</div>
+        </template>
       </div>
     </div>
 
@@ -70,6 +82,7 @@ const scrollToBottom = () => {
         <button class="_7436101" @click="submitMessage" :disabled="message.length === 0">
           <div class="_6f28693">
             <div class="ds-icon" style="font-size: 16px; width: 16px; height: 16px;">
+              <!-- SVG Icon -->
               <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
                 <path
                   fill-rule="evenodd" clip-rule="evenodd"
@@ -95,7 +108,66 @@ const scrollToBottom = () => {
   </div>
 </template>
 
+
+
+
 <style>
+
+.chat-bubble h1,
+.chat-bubble h2,
+.chat-bubble h3,
+.chat-bubble h4,
+.chat-bubble h5,
+.chat-bubble h6 {
+  margin: 8px 0;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.chat-bubble ul {
+  margin-left: 20px;
+  padding-left: 0;
+  list-style-type: disc;
+}
+
+.chat-bubble li {
+  margin-bottom: 6px;
+}
+
+.chat-bubble strong,
+.chat-bubble b {
+  font-weight: 700;
+}
+
+.chat-bubble em,
+.chat-bubble i {
+  font-style: italic;
+}
+
+.chat-bubble a {
+  color: #4d6bfe;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.chat-bubble code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.chat-bubble pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .chat-messages {
   position: fixed;
   top: 20px;
@@ -110,9 +182,6 @@ const scrollToBottom = () => {
   flex-direction: column;
   gap: 10px;
 }
-
-
-
 
 .chat-bubble {
   max-width: 75%;
