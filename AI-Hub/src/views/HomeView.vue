@@ -16,6 +16,17 @@ const count = ref(0)
       message.value = '';
     };
 
+
+    function handleEnter(e) {
+  if (e.shiftKey) {
+    return;
+  }
+
+  e.preventDefault(); 
+  submitMessage();
+}
+
+
 </script>
 
 <template>
@@ -25,14 +36,15 @@ const count = ref(0)
   <div class="chat-container">
     <div class="textarea-container">
       <div class="input-wrapper">
-        <textarea
-          id="chat-input"
-          rows="1"
-          placeholder="Schreibe eine Nachricht..."
-          oninput="autoResize(this)"
-          v-model="message"
+<textarea
+  id="chat-input"
+  rows="1"
+  placeholder="Schreibe eine Nachricht..."
+  oninput="autoResize(this)"
+  v-model="message"
+  @keyup.enter="handleEnter" 
+></textarea>
 
-        ></textarea>
 
         <button class="_7436101" @click="submitMessage" :disabled="message.length === 0">
           <div class="_6f28693">
@@ -104,7 +116,7 @@ const count = ref(0)
     border-radius: 24px;
     padding: 15px 20px; 
     font-size: 18px; 
-    line-height: 1.8;
+    line-height: 1;
     overflow-y: auto;
     outline: none;
     resize: none;
