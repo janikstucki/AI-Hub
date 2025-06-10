@@ -61,9 +61,7 @@ onMounted(async () => {
 
       <nav class="chat-list">
         <div v-if="chats.length === 0">
-          <a href="#" class="chat-link" key="no-chats">
-            Keine Chats, starte eine neue Konversation.
-          </a>
+          <button href="#" class="chat-link-btn" key="no-chats"  @click="router.push('/newChat')">Keine Chats, starte eine neue Konversation.</button>
         </div>
 
         <div v-else>
@@ -190,6 +188,7 @@ onMounted(async () => {
   margin-bottom: 10px;
 }
 
+
 .chat-link:hover {
   background-color: #ddd;
 }
@@ -199,6 +198,27 @@ onMounted(async () => {
   color: #666;
 }
 
+
+.chat-link-btn {
+  color: #000;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  width: 100%;
+  border: none;
+  margin-bottom: 10px;
+}
+
+
+.chat-link-btn:hover {
+  background-color: #ddd;
+}
+
+.chat-link-btn .model {
+  font-size: 0.8em;
+  color: #666;
+}
 .menu {
   margin-top: 20px;
   display: flex;
