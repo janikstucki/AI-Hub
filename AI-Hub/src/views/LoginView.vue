@@ -147,7 +147,7 @@ input {
   width: 100%;
   padding: 10px;
   background-color: #4d6bfe;
-  color: #282c34;
+  color: #f0f0f0;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
