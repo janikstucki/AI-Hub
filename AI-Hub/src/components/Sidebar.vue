@@ -163,6 +163,14 @@ const logout = () => {
   border-right: 1px solid #ddd;
 }
 
+.menu a,
+.menu .router-link-active,
+.menu .router-link-exact-active {
+  border: none; 
+  outline: none;
+}
+
+
 .content {
   margin-left: 260px;
   flex: 1;
