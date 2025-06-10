@@ -34,7 +34,7 @@
           />
         </div>
         <button id="RegisterButton" type="submit">Registrieren</button>
-        <button id="LoginButton" type="button" @click="RouteToLogin">Zurück zum Login</button>
+        <button id="LoginButton" type="button" @click="RouteToLogin">Login</button>
       </form>
 
       <p v-if="errorMessage" style="color: red; margin-top: 1rem;">{{ errorMessage }}</p>
@@ -163,7 +163,7 @@ input {
   width: 100%;
   padding: 10px;
   background-color: #4d6bfe;
-  color: #282c34;
+  color: #f0f0f0;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
