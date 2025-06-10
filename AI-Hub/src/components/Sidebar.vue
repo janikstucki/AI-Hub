@@ -35,12 +35,13 @@ const handleLogout = async () => {
 }
 
 onMounted(async () => {
-  chats.value = await getAllChats()
-  console.log(chats.value.chats)
-
   const response = await isLoggedIn()
   if (response) {
     LoggedIn.value = response.loggedin
+
+    if (response.loggedin) {
+      chats.value = await getAllChats()
+    }
   }
 })
 </script>
