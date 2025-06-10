@@ -38,7 +38,7 @@ const count = ref(0)
       <div class="input-wrapper">
 <textarea
   id="chat-input"
-  rows="1"
+  rows="3"
   placeholder="Schreibe eine Nachricht..."
   oninput="autoResize(this)"
   v-model="message"
