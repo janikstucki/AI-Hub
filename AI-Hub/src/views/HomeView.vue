@@ -70,7 +70,6 @@ const scrollToBottom = () => {
         <button class="_7436101" @click="submitMessage" :disabled="message.length === 0">
           <div class="_6f28693">
             <div class="ds-icon" style="font-size: 16px; width: 16px; height: 16px;">
-              <!-- Icon bleibt wie bei dir -->
               <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
                 <path
                   fill-rule="evenodd" clip-rule="evenodd"
