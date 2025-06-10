@@ -77,8 +77,9 @@ const RouteToHome = () => {
         </div>
         <button id="LoginButton" type="submit">Login</button>
         <button id="Button" type="button" @click="RouteToRegister">Registrieren</button>
-        <button id="Button" type="button" @click="RouteToHome">Zurück</button>
+        <!-- <button id="Button" type="button" @click="RouteToHome">Zurück</button> -->
       </form>
+      
     </div>
   </div>
 </template>

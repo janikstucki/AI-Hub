@@ -116,9 +116,8 @@ const logout = () => {
         <router-link to="/">Home</router-link>
         <router-link to="/settings">Einstellungen</router-link>
 
-        <!-- Wenn eingeloggt: Logout-Button, sonst Login-Link -->
         <button v-if="isAuth" @click="logout" class="logout-button">Logout</button>
-        <router-link v-else to="/login">Login</router-link>
+        <router-link id="loginButton" v-else to="/login">Login</router-link>
       </nav>
     </aside>
 
@@ -127,18 +126,14 @@ const logout = () => {
 </template>
 
 <style>
-/* Deine Styles ... */
 .logout-button {
-  background-color: #f33;
-  color: white;
-  border: none;
+  color: #000;
+  border-color: #000;
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
-}
-.logout-button:hover {
-  background-color: #d00;
+  background-color: #f9f9f9;
 }
 
 .layout {
@@ -148,6 +143,11 @@ const logout = () => {
   background-color: #fff; 
   color: #000;
   overflow: hidden;
+}
+
+#loginButton{
+  background-color: #4d6bfe;
+  color: #f9f9f9;
 }
 
 .sidebar {
