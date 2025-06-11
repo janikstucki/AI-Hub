@@ -6,11 +6,10 @@ import { isLoggedIn, logout } from "@/api/routes/userRoutes";
 
 const router = useRouter();
 const chats = ref([]);
-const isEditing = ref(false);
-const LoggedIn = ref(false);
+const loggedIn = ref(false);
 
 function NewChat() {
-  if (LoggedIn.value) {
+  if (loggedIn.value) {
     router.push("/newchat");
   } else {
     router.push("/login");
@@ -38,7 +37,7 @@ const handleLogout = async () => {
 onMounted(async () => {
   const response = await isLoggedIn();
   if (response) {
-    LoggedIn.value = response.loggedin;
+    loggedIn.value = response.loggedin;
 
     if (response.loggedin) {
       chats.value = await getAllChats();
@@ -76,17 +75,16 @@ onMounted(async () => {
 						href="#"
 						class="chat-link-btn"
 						key="no-chats"
-						@click="router.push('/newChat')"
+						@click="NewChat()"
 					>
 						Keine Chats, starte eine neue Konversation.
 					</button>
 				</div>
 
 				<div v-else>
-					<a
+					<div
 						v-for="chat in chats.chats"
 						:key="chat.id"
-						href="#"
 						class="chat-link"
 					>
 						<div class="chat-row">
@@ -135,16 +133,13 @@ onMounted(async () => {
 							</div>
 						</div>
 						<span class="model">({{ chat.SelectedAI }})</span>
-					</a>
+					</div>
 				</div>
 			</nav>
-
-			<hr />
-
 			<nav class="menu">
 				<router-link to="/settings">Einstellungen</router-link>
 
-				<button v-if="LoggedIn" @click="handleLogout" class="logout-button">
+				<button v-if="loggedIn" @click="handleLogout" class="logout-button">
 					Logout
 				</button>
 				<router-link v-else to="/login" id="login-button">Login</router-link>
@@ -156,10 +151,9 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/* Deine Styles ... */
 .logout-button {
-  color: #000;
-  border-color: #000;
+  color: #4d6bfe;
+  border-color: #4d6bfe;
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
@@ -167,9 +161,8 @@ onMounted(async () => {
   background-color: #f9f9f9;
 }
 
-#login-button {
-  background-color: #4d6bfe;
-  color: white;
+.logout-button:hover {
+  background-color: #ddd;
 }
 
 .sidebar {
@@ -209,11 +202,14 @@ onMounted(async () => {
 .chat-link {
   color: #000;
   text-decoration: none;
-  padding: 10px;
   border-radius: 6px;
   transition: background 0.2s;
   width: 100%;
+  padding: 10px;
   margin-bottom: 10px;
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
 }
 
 .chat-link:hover {
@@ -234,6 +230,7 @@ onMounted(async () => {
   width: 100%;
   border: none;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .chat-link-btn:hover {
@@ -260,7 +257,7 @@ onMounted(async () => {
 }
 
 .menu a:hover {
-  background-color: #ececec;
+  background-color: #ddd;
 }
 
 nav {
@@ -350,5 +347,14 @@ nav a:first-of-type {
 .main-container {
   height: 100vh;
   width: 260px;
+}
+
+#login-button {
+  background-color: #4d6bfe;
+  color: white;
+}
+
+#login-button:hover {
+  filter: brightness(90%)
 }
 </style>

@@ -1,37 +1,14 @@
 <script setup>
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import Sidebar from "../components/Sidebar.vue";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
+import { isLoggedIn } from "@/api/routes/userRoutes";
 
 const message = ref("");
-const messages = ref([
-	{ role: "assistant", content: "Hey! Wie kann ich dir helfen? 😄" },
-	{ role: "user", content: "Kannst du mir was über Vue sagen?" },
-	{
-		role: "assistant",
-		content: "Na klar! **Vue** ist ein _progressives_ JS-Framework ✨",
-	},
-
-	{
-		role: "user",
-		content: "# Titel\nDas ist ein Test mit Markdown.\n- Punkt 1\n- Punkt 2",
-	},
-	{
-		role: "assistant",
-		content: "# Titel\nDas ist ein Test mit Markdown.\n- Punkt 1\n- Punkt 2",
-	},
-	{
-		role: "assistant",
-		content: "> Dies ist ein Zitat.\n\nUnd ein [Link](https://vuejs.org)",
-	},
-	{ role: "user", content: "Ich bin *nicht sicher*, ob das funktioniert 🤔" },
-	{ role: "assistant", content: "Kein Markdown hier, einfach nur Text." },
-	{
-		role: "user",
-		content: '`console.log("Hello World")` zeigt etwas im Terminal an.',
-	},
-]);
+const messages = ref([]);
+const loggedIn = ref(false)
+const selectedChat = ref(0)
 
 const submitMessage = () => {
 	if (message.value.trim() === "") return;
@@ -64,12 +41,21 @@ const renderAssistantMarkdown = (text) => {
 	const dirty = marked.parse(text);
 	return DOMPurify.sanitize(dirty);
 };
+
+onMounted(async () => {
+  const response = await isLoggedIn()
+
+  if (response) {
+    loggedIn.value = response.loggedin
+    console.log(loggedIn)
+  }
+})
 </script>
 
 <template>
 	<div class="main-container">
-		<Sidebar />
-		<div class="chat-container">
+		<Sidebar/>
+		<div class="chat-container" v-if="loggedIn">
       <div class="message-container">
         <div class="chat-messages">
           <div
@@ -104,7 +90,7 @@ const renderAssistantMarkdown = (text) => {
 					></textarea>
 
 					<button
-						class="_7436101"
+						class="send-button"
 						@click="submitMessage"
 						:disabled="message.length === 0"
 					>
@@ -140,6 +126,11 @@ const renderAssistantMarkdown = (text) => {
 				</div>
 			</div>
 		</div>
+    <div class="not-logged-in-container" v-else>
+      <h1>Nicht eingeloggt</h1>
+      <router-link to="/login" class="nav-button">Login</router-link>
+      <router-link to="/register" class="nav-button">Registrieren</router-link>
+    </div>
 	</div>
 </template>
 
@@ -320,7 +311,7 @@ textarea {
 	width: 100%;
 }
 
-._7436101 {
+.send-button {
 	color: #fff;
 	background: #4d6bfe;
 	border: none;
@@ -333,18 +324,18 @@ textarea {
 	cursor: pointer;
 }
 
-._7436101:disabled {
+.send-button:disabled {
 	background-color: #ccc;
 	cursor: not-allowed;
 	opacity: 0.6;
 }
 
-._7436101 svg {
+.send-button svg {
 	width: 16px;
 	height: 16px;
 }
 
-._7436101:hover {
+.send-button:hover {
 	background-color: #2563eb;
 }
 
@@ -365,8 +356,34 @@ textarea {
 }
 
 #message-fade-gradient {
-  height: 40px; /* adjust height as needed */
-  width: 100%;  /* or whatever width you need */
+  height: 40px;
+  width: 100%;
   background: linear-gradient(to bottom, transparent, white 80%);
+}
+
+.not-logged-in-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.nav-button {
+  display: flex;
+  padding: 10px;
+  background-color: #4d6bfe;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 10px;
+  width: 200px;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-button:hover {
+  filter: brightness(90%);
 }
 </style>

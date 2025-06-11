@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { login } from "@/api/routes/userRoutes";
+import BackButton from "@/components/BackButton.vue";
 
 const router = useRouter();
 const email = ref("");
@@ -21,30 +22,10 @@ const handleLogin = async () => {
 const RouteToRegister = () => {
 	router.push("/register");
 };
-
-const RouteToHome = () => {
-	router.push("/");
-};
 </script>
 
 <template>
-  <button class="back-button" @click="router.push('/')">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="size-6"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-      />
-    </svg>
-  </button>
-
+  <BackButton/>
 	<div id="logincontainer">
 		<div class="login-view">
 			<h1>Login</h1>
@@ -70,46 +51,19 @@ const RouteToHome = () => {
 					/>
 				</div>
 				<button id="LoginButton" type="submit">Login</button>
-				<button id="Button" type="button" @click="RouteToRegister">
+				<button id="RegisterButton" type="button" @click="RouteToRegister">
 					Registrieren
 				</button>
-				<!-- <button id="Button" type="button" @click="RouteToHome">Zurück</button> -->
 			</form>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-.back-button {
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 6px;
-	border-radius: 6px;
-	color: inherit;
-	transition: color 0.2s ease;
-}
-
-.back-button:hover svg {
-	stroke: #4d6bfe;
-}
-
-.back-button svg {
-	width: 24px;
-	height: 24px;
-}
-
 #logincontainer {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 100vw;
-	height: 100vh;
-	background-color: #f0f0f0;
 	display: flex;
+  margin-top: 15vh;
 	justify-content: center;
-	align-items: center;
 }
 
 .login-view {
@@ -145,7 +99,7 @@ input {
 	width: 100%;
 	padding: 10px;
 	font-size: 1rem;
-	border: none;
+	border: 2px solid #ddd;
 	color: rgb(0, 0, 0);
 	border-radius: 4px;
 	box-sizing: border-box;
@@ -155,22 +109,23 @@ input {
 	width: 100%;
 	padding: 10px;
 	background-color: #4d6bfe;
-	color: #f0f0f0;
+	color: white;
 	font-size: 1rem;
 	border-radius: 4px;
 	cursor: pointer;
 	border: none;
 }
 
-#Button {
+#RegisterButton {
 	width: 100%;
 	padding: 10px;
 	color: #4d6bfe;
 	font-size: 1rem;
-	border: none;
+	border: 2px solid #4d6bfe;
 	border-radius: 4px;
 	cursor: pointer;
 	margin-top: 10px;
+  background-color: white;
 }
 
 #BackButton {
@@ -183,7 +138,7 @@ input {
 	padding: 0;
 }
 
-#BackButton:hover {
-	color: #2563eb;
+button:hover {
+	filter: brightness(90%);
 }
 </style>
