@@ -29,7 +29,7 @@ export async function addChat(chatname, selectedai) {
 
 export async function deleteChat(chatid) {
   try {
-    const response = await api.delete("/deletechat", {chatid})
+    const response = await api.delete("/deletechat", { data: { chatid } })
     return response.data
   } catch (error) {
     console.error(error)
@@ -38,7 +38,7 @@ export async function deleteChat(chatid) {
 
 export async function renameChat(chatid, chatname) {
   try {
-    const response = await api.post("/renamechat", {chatid, chatname})
+    const response = await api.patch("/renamechat", {chatid, chatname})
     return response.data
   } catch (error) {
     console.error(error)

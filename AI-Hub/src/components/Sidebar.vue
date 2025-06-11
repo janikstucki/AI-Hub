@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { getAllChats, deleteChat } from "@/api/routes/chatRoutes";
+import { getAllChats, deleteChat, renameChat } from "@/api/routes/chatRoutes";
 import { isLoggedIn, logout } from "@/api/routes/userRoutes";
 
 const router = useRouter();
@@ -20,19 +20,29 @@ function EditChat(chat) {
   chat.isEditing = true;
 }
 
-function SaveChatTitle(chat, event) {
-  chat.title = event.target.value;
+async function SaveChatTitle(chat, event) {
+  chat.ChatName = event.target.value;
   chat.isEditing = false;
+  await renameChat(chat.ChatId, chat.ChatName)
 }
 
 async function DeleteChat(chatid) {
   await deleteChat(chatid);
+  chats.value.chats = chats.value.chats.filter(chat => chatid !== chat.ChatId)
 }
 
 const handleLogout = async () => {
   await logout();
   window.location.reload()
 };
+
+const Settings = () => {
+  if (loggedIn.value) {
+    router.push("/settings")
+  } else {
+    router.push("/login")
+  }
+}
 
 onMounted(async () => {
   const response = await isLoggedIn();
@@ -137,7 +147,7 @@ onMounted(async () => {
 				</div>
 			</nav>
 			<nav class="menu">
-				<router-link to="/settings">Einstellungen</router-link>
+				<a @click="Settings">Accesstokens</a>
 
 				<button v-if="loggedIn" @click="handleLogout" class="logout-button">
 					Logout
@@ -249,11 +259,13 @@ onMounted(async () => {
 }
 
 .menu a {
-  color: #555;
+  color: black;
   text-decoration: none;
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.2s;
+  user-select: none;
+  cursor: pointer;
 }
 
 .menu a:hover {

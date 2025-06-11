@@ -1,104 +1,39 @@
 <script setup>
-import { ref } from "vue";
-import router from "@/router";
-
-const email = ref("email@test");
-const password = ref("starkespasswort");
-
-const isEditingEmail = ref(false);
-const isEditingPassword = ref(false);
+import { onMounted, ref } from "vue";
+import BackButton from "@/components/BackButton.vue";
+import { getAccesstokens, addAccesstokens, deleteAccesstoken } from "@/api/routes/accesstokenRoutes";
 
 const showModal = ref(false);
 const newApiKey = ref("");
 
-const models = ref([
-	{ id: 1, apiKey: "1231321" },
-	{ id: 2, apiKey: "fgfgf" },
-]);
+const tokens = ref([]);
 
-function SaveModelTitle(chat, event) {
-	chat.apiKey = event.target.value;
-	chat.isEditing = false;
+function SaveToken() {
+	
 }
 
-function DeleteChat(chat) {
-	const index = models.value.indexOf(chat);
-	if (index > -1) {
-		models.value.splice(index, 1);
-	}
-}
-
-function handleCreateChat() {
-	if (!newApiKey.value) return;
-
-	const newId = models.value.length + 1;
-	models.value.push({
-		id: newId,
-		apiKey: newApiKey.value,
-		isEditing: false,
-	});
-
-	newApiKey.value = "";
-	showModal.value = false;
-}
+onMounted(async () => {
+	tokens.value = await getAccesstokens()
+})
 </script>
-
 <template>
+	<BackButton/>
 	<div id="nwcontainer">
-		<button class="back-button" @click="router.push('/')">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
-				class="size-6"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-				/>
-			</svg>
-		</button>
 		<div class="nwview">
-			<h1>Model-Verwaltung</h1>
+			<h1>Accesstoken-Verwaltung</h1>
 
-			<div class="form-group">
-				<label for="email">E-Mail</label>
-				<div class="editable-field">
-					<div class="field-content">
-						<div>{{ email }}</div>
-					</div>
-				</div>
-
-				<label for="password">Passwort</label>
-				<div class="editable-field">
-					<div class="field-content">
-						<div>{{ password }}</div>
-					</div>
-				</div>
+			<div v-if="tokens.length === 0">
+				<p>Noch kein Accesstoken vorhanden.</p>
 			</div>
 
-			<div v-if="models.length === 0">
-				<p>Noch kein API-Key vorhanden.</p>
-			</div>
-
-			<div v-else>
-				<a
-					v-for="chat in models.sort((a, b) => a.id - b.id)"
-					:key="chat.id"
-					href="#"
+			<div class="token-list" v-else>
+				<div
+					v-for="token in tokens.accesstokens"
+					:key="token.AccessTokenId"
 					class="chat-link"
 				>
 					<div class="chat-row">
-						<span v-if="!chat.isEditing">{{ chat.apiKey }}</span>
-						<input
-							v-else
-							v-model="chat.apiKey"
-							@keyup.enter="SaveModelTitle(chat, $event)"
-							class="chat-title-input"
-						/>
+						<span>{{ token.TokenValue }}</span>
 						<div class="chat-actions">
 							<button class="icon-button" @click="DeleteChat(chat)">
 								<svg
@@ -118,11 +53,11 @@ function handleCreateChat() {
 							</button>
 						</div>
 					</div>
-				</a>
+				</div>
 			</div>
 
 			<button id="nwButton" @click="showModal = true">
-				API-Key hinzufügen
+				Accesstoken hinzufügen
 			</button>
 
 			<div
@@ -132,10 +67,10 @@ function handleCreateChat() {
 			>
 				<div class="modal">
 					<form @submit.prevent="handleCreateChat">
-						<label for="api-key">API-Key:</label>
-						<input type="text" id="api-key" v-model="newApiKey" />
-						<button id="nwButton" type="submit">Erstellen</button>
-						<button id="Button" type="button" @click="showModal = false">
+						<label for="Accesstoken">Accesstoken:</label>
+						<input type="text" id="Accesstoken" v-model="newApiKey" />
+						<button id="nwButton" type="submit">Hinzufügen</button>
+						<button id="CancelButton" type="button" @click="showModal = false">
 							Abbrechen
 						</button>
 					</form>
@@ -178,28 +113,6 @@ function handleCreateChat() {
 	stroke: #4d6bfe;
 }
 
-.back-button {
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 6px;
-	border-radius: 6px;
-	color: inherit;
-	transition: color 0.2s ease;
-	position: fixed;
-	top: 35%;
-	left: 40%;
-}
-
-.back-button:hover svg {
-	stroke: #4d6bfe;
-}
-
-.back-button svg {
-	width: 24px;
-	height: 24px;
-}
-
 .close-button {
 	position: absolute;
 	top: 0.5rem;
@@ -216,24 +129,13 @@ function handleCreateChat() {
 	position: relative;
 }
 
-html,
-body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-}
-
 #nwcontainer {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 100vw;
-	height: 100vh;
-	background-color: #f0f0f0;
+	display: flex;
+	width: 100%;
+	height: 100%;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	margin-top: 15vh;
 }
 
 .nwview {
@@ -284,7 +186,7 @@ input {
 .editable-field input,
 .editable-field span {
 	flex: 1;
-	padding-right: 36px; /* Platz für den Button */
+	padding-right: 36px;
 }
 
 .editable-field .icon-button {
@@ -340,7 +242,7 @@ input {
 	margin-top: 10px;
 }
 
-#Button {
+#CancelButton {
 	width: 100%;
 	padding: 10px;
 	color: #4d6bfe;
@@ -349,5 +251,20 @@ input {
 	border-radius: 4px;
 	cursor: pointer;
 	margin-top: 10px;
+	background-color: white;
+}
+
+button:hover {
+	filter: brightness(90%);
+}
+
+input:focus {
+	border-color: #4d6bfe;
+	box-shadow: 0 0 0 3px #4d6bfe;
+}
+
+.token-list {
+	overflow-y: auto;
+	max-height: 200px;
 }
 </style>

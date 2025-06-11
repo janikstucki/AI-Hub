@@ -141,4 +141,9 @@ input {
 button:hover {
 	filter: brightness(90%);
 }
+
+input:focus {
+	border-color: #4d6bfe;
+	box-shadow: 0 0 0 3px #4d6bfe;
+}
 </style>

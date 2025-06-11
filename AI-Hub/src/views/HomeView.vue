@@ -7,7 +7,7 @@ import { isLoggedIn } from "@/api/routes/userRoutes";
 
 const message = ref("");
 const messages = ref([]);
-const loggedIn = ref(false)
+const loggedIn = ref(true)
 const selectedChat = ref(0)
 
 const submitMessage = () => {
@@ -47,7 +47,6 @@ onMounted(async () => {
 
   if (response) {
     loggedIn.value = response.loggedin
-    console.log(loggedIn)
   }
 })
 </script>
@@ -56,7 +55,6 @@ onMounted(async () => {
 	<div class="main-container">
 		<Sidebar/>
 		<div class="chat-container" v-if="loggedIn">
-      <div class="message-container">
         <div class="chat-messages">
           <div
             v-for="(msg, index) in messages"
@@ -76,7 +74,6 @@ onMounted(async () => {
             </template>
           </div>
         </div>
-      </div>
 
 			<div class="textarea-container">
         <div id="message-fade-gradient"></div>
@@ -198,10 +195,10 @@ onMounted(async () => {
 	gap: 20px;
   padding: 20px;
   padding-bottom: 25px;
-}
-
-.message-container {
-  height: 80vh;
+	height: 80vh;
+	box-sizing: border-box;
+	padding-left: 50px;
+	padding-right: 50px;
 }
 
 .chat-bubble {
@@ -241,9 +238,7 @@ body {
 }
 
 textarea {
-	width: 100%;
-	min-width: 400px;
-	max-height: 140px;
+	width: 100%;;
 	height: 100%;
 	border: none;
 	font-size: 18px;
@@ -353,12 +348,6 @@ textarea {
   height: 100%;
   width: 100%;
   flex-direction: column;
-}
-
-#message-fade-gradient {
-  height: 40px;
-  width: 100%;
-  background: linear-gradient(to bottom, transparent, white 80%);
 }
 
 .not-logged-in-container {
