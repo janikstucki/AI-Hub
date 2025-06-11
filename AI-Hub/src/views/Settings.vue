@@ -4,12 +4,18 @@ import BackButton from "@/components/BackButton.vue";
 import { getAccesstokens, addAccesstokens, deleteAccesstoken } from "@/api/routes/accesstokenRoutes";
 
 const showModal = ref(false);
-const newApiKey = ref("");
+const newAccesstoken = ref("");
 
-const tokens = ref([]);
+const tokens = ref({accesstokens: []});
 
-function SaveToken() {
-	
+async function SaveToken() {
+	await addAccesstokens([newAccesstoken.value])
+	window.location.reload()
+}
+
+async function DeleteToken(tokenid) {
+	await deleteAccesstoken(tokenid)
+	tokens.value.accesstokens = tokens.value.accesstokens.filter(token => token.AccessTokenId !== tokenid)
 }
 
 onMounted(async () => {
@@ -22,7 +28,7 @@ onMounted(async () => {
 		<div class="nwview">
 			<h1>Accesstoken-Verwaltung</h1>
 
-			<div v-if="tokens.length === 0">
+			<div v-if="tokens.accesstokens.length === 0">
 				<p>Noch kein Accesstoken vorhanden.</p>
 			</div>
 
@@ -35,7 +41,7 @@ onMounted(async () => {
 					<div class="chat-row">
 						<span>{{ token.TokenValue }}</span>
 						<div class="chat-actions">
-							<button class="icon-button" @click="DeleteChat(chat)">
+							<button class="icon-button" @click="DeleteToken(token.AccessTokenId)">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -66,9 +72,8 @@ onMounted(async () => {
 				@click.self="showModal = false"
 			>
 				<div class="modal">
-					<form @submit.prevent="handleCreateChat">
-						<label for="Accesstoken">Accesstoken:</label>
-						<input type="text" id="Accesstoken" v-model="newApiKey" />
+					<form @submit.prevent="SaveToken">
+						<input type="text" id="Accesstoken" v-model="newAccesstoken" />
 						<button id="nwButton" type="submit">Hinzufügen</button>
 						<button id="CancelButton" type="button" @click="showModal = false">
 							Abbrechen

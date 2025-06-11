@@ -20,7 +20,7 @@ export async function addAccesstokens(accesstokens) {
 
 export async function deleteAccesstoken(accesstokenid) {
   try {
-    const response = await api.delete("/deleteaccesstokens", {accesstokenid})
+    const response = await api.delete("/deleteaccesstoken", { data: { accesstokenid } })
     return response.data
   } catch (error) {
     console.error(error)

@@ -4,24 +4,20 @@ import Sidebar from "../components/Sidebar.vue";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import { isLoggedIn } from "@/api/routes/userRoutes";
+import { getChat, addChatMessage } from "@/api/routes/chatRoutes";
 
 const message = ref("");
 const messages = ref([]);
 const loggedIn = ref(true)
 const selectedChat = ref(0)
 
-const submitMessage = () => {
+const submitMessage = async () => {
 	if (message.value.trim() === "") return;
-	messages.value.push({ role: "user", content: message.value });
-	message.value = "";
-	setTimeout(() => {
-		messages.value.push({
-			role: "assistant",
-			content: "Das ist eine automatisch generierte Antwort 🤖",
-		});
-		scrollToBottom();
-	}, 800);
-	scrollToBottom();
+	const tempMessage = message.value
+	message.value = ""
+	await addChatMessage(tempMessage, selectedChat.value)
+	getChatData()
+	scrollToBottom()
 };
 
 const handleEnter = (e) => {
@@ -42,6 +38,16 @@ const renderAssistantMarkdown = (text) => {
 	return DOMPurify.sanitize(dirty);
 };
 
+const changeSelectedChat = (payload) => {
+	selectedChat.value = payload.chatId
+	getChatData()
+}
+
+const getChatData = async () => {
+	const response = await getChat(selectedChat.value)
+	messages.value = response.chatmessages
+}
+
 onMounted(async () => {
   const response = await isLoggedIn()
 
@@ -53,7 +59,7 @@ onMounted(async () => {
 
 <template>
 	<div class="main-container">
-		<Sidebar/>
+		<Sidebar @SelectedChatChanged="changeSelectedChat"/>
 		<div class="chat-container" v-if="loggedIn">
         <div class="chat-messages">
           <div
@@ -61,23 +67,25 @@ onMounted(async () => {
             :key="index"
             :class="[
               'chat-bubble',
-              msg.role === 'user' ? 'bubble-user' : 'bubble-bot',
+              msg.Sender === 'user' ? 'bubble-user' : 'bubble-bot',
             ]"
+						v-if="selectedChat !== 0"
           >
-            <template v-if="msg.role === 'assistant'">
-              <!-- Assistant mit Markdown gerendert -->
-              <div v-html="renderAssistantMarkdown(msg.content)"></div>
+            <template v-if="msg.Sender === 'assistant'">
+              <div v-html="renderAssistantMarkdown(msg.Content)"></div>
             </template>
             <template v-else>
-              <!-- User: reiner Text, kein Rendering -->
-              <div>{{ msg.content }}</div>
+              <div>{{ msg.Content }}</div>
             </template>
           </div>
+					<div class="chat-info" v-else>
+						<h1>Kein Chat ausgewählt</h1>
+					</div>
         </div>
 
 			<div class="textarea-container">
         <div id="message-fade-gradient"></div>
-				<div class="input-wrapper">
+				<div class="input-wrapper" v-if="selectedChat !== 0">
 					<textarea
 						id="chat-input"
 						rows="3"
@@ -195,7 +203,7 @@ onMounted(async () => {
 	gap: 20px;
   padding: 20px;
   padding-bottom: 25px;
-	height: 80vh;
+	height: 90vh;
 	box-sizing: border-box;
 	padding-left: 50px;
 	padding-right: 50px;
@@ -231,8 +239,8 @@ body {
 
 .textarea-container {
 	display: flex;
-  justify-content: center;
-  height: 20vh;
+  justify-content: end;
+  height: 10vh;
   flex-direction: column;
   align-items: center;
 }
@@ -374,5 +382,12 @@ textarea {
 
 .nav-button:hover {
   filter: brightness(90%);
+}
+
+.chat-info {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
 }
 </style>
