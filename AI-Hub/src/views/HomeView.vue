@@ -9,7 +9,6 @@ const messages = ref([
   { role: 'assistant', content: 'Hey! Wie kann ich dir helfen? 😄' },
   { role: 'user', content: 'Kannst du mir was über Vue sagen?' },
   { role: 'assistant', content: 'Na klar! **Vue** ist ein _progressives_ JS-Framework ✨' },
-
   { role: 'user', content: '# Titel\nDas ist ein Test mit Markdown.\n- Punkt 1\n- Punkt 2' },
   { role: 'assistant', content: '# Titel\nDas ist ein Test mit Markdown.\n- Punkt 1\n- Punkt 2' },
   { role: 'assistant', content: '> Dies ist ein Zitat.\n\nUnd ein [Link](https://vuejs.org)' },
