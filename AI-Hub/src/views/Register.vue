@@ -1,3 +1,5 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -9,7 +11,6 @@ const router = useRouter();
 const username = ref("");
 const email = ref("");
 const password = ref("");
-
 const errorMessage = ref("");
 const successMessage = ref("");
 
@@ -42,7 +43,7 @@ const RouteToLogin = () => {
 			<h1>Registrieren</h1>
 
 			<form @submit.prevent="handleregister">
-				<div class="form-group">
+				<div class="form">
 					<label for="username">Benutzername</label>
 					<input
 						type="text"
@@ -52,7 +53,7 @@ const RouteToLogin = () => {
 						placeholder="Benutzername eingeben"
 					/>
 				</div>
-				<div class="form-group">
+				<div class="form">
 					<label for="email">E-Mail</label>
 					<input
 						type="email"
@@ -62,7 +63,7 @@ const RouteToLogin = () => {
 						placeholder="E-Mail eingeben"
 					/>
 				</div>
-				<div class="form-group">
+				<div class="form">
 					<label for="password">Passwort</label>
 					<input
 						type="password"
@@ -72,8 +73,8 @@ const RouteToLogin = () => {
 						placeholder="Passwort eingeben"
 					/>
 				</div>
-				<button id="RegisterButton" type="submit">Registrieren</button>
-				<button id="LoginButton" type="button" @click="RouteToLogin">
+				<button id="register-btn" type="submit">Registrieren</button>
+				<button id="login-btn" type="button" @click="RouteToLogin"> <!--router.push('/login') direkt funktioniert irgendwie nicht-->
 					Login
 				</button>
 			</form>
@@ -113,7 +114,7 @@ h1 {
 	color: #333;
 }
 
-.form-group {
+.form {
 	margin-bottom: 15px;
 	text-align: left;
 }
@@ -136,7 +137,7 @@ input {
 	box-sizing: border-box;
 }
 
-#RegisterButton {
+#register-btn {
 	width: 100%;
 	padding: 10px;
 	background-color: #4d6bfe;
@@ -147,7 +148,7 @@ input {
 	border: none;
 }
 
-#LoginButton {
+#login-btn {
 	width: 100%;
 	padding: 10px;
 	color: #4d6bfe;

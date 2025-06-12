@@ -1,8 +1,7 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-
-
-
 </script>
 
 <template>
@@ -46,6 +45,7 @@ nav a:first-of-type {
   border: 0;
 }
 
+/*Responsive*/
 @media (min-width: 1024px) {
   header {
     display: flex;

@@ -1,9 +1,11 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { onMounted, ref } from "vue";
 import BackButton from "@/components/BackButton.vue";
 import { getAccesstokens, addAccesstokens, deleteAccesstoken } from "@/api/routes/accesstokenRoutes";
 
-const showModal = ref(false);
+const Showmodal = ref(false);
 const newAccesstoken = ref("");
 
 const tokens = ref({accesstokens: []});
@@ -41,6 +43,7 @@ onMounted(async () => {
 					<div class="chat-row">
 						<span>{{ token.TokenValue }}</span>
 						<div class="chat-actions">
+							<!-- trash Button von https://heroicons.com/-->
 							<button class="icon-button" @click="DeleteToken(token.AccessTokenId)">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -62,20 +65,20 @@ onMounted(async () => {
 				</div>
 			</div>
 
-			<button id="nwButton" @click="showModal = true">
+			<button id="nwButton" @click="Showmodal = true">
 				Accesstoken hinzufügen
 			</button>
 
 			<div
-				v-if="showModal"
+				v-if="Showmodal"
 				class="modal-overlay"
-				@click.self="showModal = false"
+				@click.self="Showmodal = false"
 			>
 				<div class="modal">
 					<form @submit.prevent="SaveToken">
 						<input type="text" id="Accesstoken" v-model="newAccesstoken" />
 						<button id="nwButton" type="submit">Hinzufügen</button>
-						<button id="CancelButton" type="button" @click="showModal = false">
+						<button id="CancelButton" type="button" @click="Showmodal = false">
 							Abbrechen
 						</button>
 					</form>
@@ -182,19 +185,19 @@ input {
 	box-sizing: border-box;
 }
 
-.editable-field {
+.edit-field {
 	position: relative;
 	display: flex;
 	align-items: center;
 }
 
-.editable-field input,
-.editable-field span {
+.edit-field input,
+.edit-field span {
 	flex: 1;
 	padding-right: 36px;
 }
 
-.editable-field .icon-button {
+.edit-field .icon-button {
 	position: absolute;
 	right: 0;
 	top: 50%;

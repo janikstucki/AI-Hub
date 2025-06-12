@@ -1,3 +1,5 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { ref } from "vue";
 import router from "@/router";
@@ -24,7 +26,7 @@ async function handleCreateChat() {
 		<div class="nwview">
 			<h1>Neuer Chat</h1>
 			<form @submit.prevent="handleCreateChat">
-				<div class="form-group">
+				<div class="form">
 					<label for="chatName">Chat-Name</label>
 					<input
 						type="text"
@@ -32,7 +34,7 @@ async function handleCreateChat() {
 						required
 						placeholder="Name" />
 				</div>
-				<div class="form-group">
+				<div class="form">
 					<label for="chatName">Chat-Model</label>
 					<input
 						type="text"
@@ -78,7 +80,7 @@ h1 {
 	color: #333;
 }
 
-.form-group {
+.form {
 	margin-bottom: 15px;
 	text-align: left;
 }

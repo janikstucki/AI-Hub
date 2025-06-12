@@ -1,3 +1,5 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -30,7 +32,7 @@ const RouteToRegister = () => {
 		<div class="login-view">
 			<h1>Login</h1>
 			<form @submit.prevent="handleLogin">
-				<div class="form-group">
+				<div class="form">
 					<label for="email">E-Mail</label>
 					<input
 						type="email"
@@ -40,7 +42,7 @@ const RouteToRegister = () => {
 						placeholder="Deine E-Mail"
 					/>
 				</div>
-				<div class="form-group">
+				<div class="form">
 					<label for="password">Passwort</label>
 					<input
 						type="password"
@@ -50,8 +52,8 @@ const RouteToRegister = () => {
 						placeholder="Dein Passwort"
 					/>
 				</div>
-				<button id="LoginButton" type="submit">Login</button>
-				<button id="RegisterButton" type="button" @click="RouteToRegister">
+				<button id="login-btn" type="submit">Login</button>
+				<button id="registrierenbtn" type="button" @click="RouteToRegister">
 					Registrieren
 				</button>
 			</form>
@@ -82,7 +84,7 @@ h1 {
 	color: #333;
 }
 
-.form-group {
+.form {
 	margin-bottom: 15px;
 	text-align: left;
 }
@@ -105,7 +107,7 @@ input {
 	box-sizing: border-box;
 }
 
-#LoginButton {
+#login-btn {
 	width: 100%;
 	padding: 10px;
 	background-color: #4d6bfe;
@@ -116,7 +118,7 @@ input {
 	border: none;
 }
 
-#RegisterButton {
+#registrierenbtn {
 	width: 100%;
 	padding: 10px;
 	color: #4d6bfe;

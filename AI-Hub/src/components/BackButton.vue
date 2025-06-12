@@ -1,10 +1,13 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 </script>
 <template>
-  <button class="back-button" @click="router.push('/')">
+    <!--arrow-uturn-left Icon von https://heroicons.com/-->
+  <button class="back-btn" @click="router.push('/')">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -23,14 +26,14 @@ const router = useRouter()
 </template>
 <style scoped>
 button {
-	background: #4d6bfe;
-	border: none;
-	cursor: pointer;
-	padding: 10px;
-	border-radius: 5px;
+  border-radius: 5px;
 	color: inherit;
 	transition: color 0.2s ease;
   margin: 10px;
+	background: #4d6bfe;
+	cursor: pointer;
+	padding: 10px;
+	border: none;
 }
 
 button:hover {
@@ -38,8 +41,8 @@ button:hover {
 }
 
 svg {
+  stroke: white;
 	width: 24px;
 	height: 24px;
-  stroke: white;
 }
 </style>

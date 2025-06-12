@@ -1,3 +1,4 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
 <script setup>
 import { ref, nextTick, onMounted } from "vue";
 import Sidebar from "../components/Sidebar.vue";
@@ -11,19 +12,21 @@ const messages = ref([]);
 const loggedIn = ref(true)
 const selectedChat = ref(0)
 
-const submitMessage = async () => {
+/*Dompurify hilfe vom copilot und https://www.npmjs.com/package/dompurify*/
+
+const SendMessage = async () => {
 	if (message.value.trim() === "") return;
-	const tempMessage = message.value
+	const Message = message.value
 	message.value = ""
-	await addChatMessage(tempMessage, selectedChat.value)
+	await addChatMessage(Message, selectedChat.value)
 	getChatData()
 	scrollToBottom()
 };
-
+/*Mit shift eine neue Zeile ohne Absenden*/ 
 const handleEnter = (e) => {
 	if (e.shiftKey) return;
 	e.preventDefault();
-	submitMessage();
+	SendMessage();
 };
 
 const scrollToBottom = () => {
@@ -34,8 +37,8 @@ const scrollToBottom = () => {
 };
 
 const renderAssistantMarkdown = (text) => {
-	const dirty = marked.parse(text);
-	return DOMPurify.sanitize(dirty);
+	const unsanitzized = marked.parse(text);
+	return DOMPurify.sanitize(unsanitzized);
 };
 
 const changeSelectedChat = (payload) => {
@@ -49,81 +52,55 @@ const getChatData = async () => {
 }
 
 onMounted(async () => {
-  const response = await isLoggedIn()
+	const response = await isLoggedIn()
 
-  if (response) {
-    loggedIn.value = response.loggedin
-  }
+	if (response) {
+		loggedIn.value = response.loggedin
+	}
 })
 </script>
 
 <template>
 	<div class="main-container">
-		<Sidebar @SelectedChatChanged="changeSelectedChat"/>
+		<Sidebar @SelectedChatChanged="changeSelectedChat" />
 		<div class="chat-container" v-if="loggedIn">
-        <div class="chat-messages">
-          <div
-            v-for="(msg, index) in messages"
-            :key="index"
-            :class="[
-              'chat-bubble',
-              msg.Sender === 'user' ? 'bubble-user' : 'bubble-bot',
-            ]"
-						v-if="selectedChat !== 0"
-          >
-            <template v-if="msg.Sender === 'assistant'">
-              <div v-html="renderAssistantMarkdown(msg.Content)"></div>
-            </template>
-            <template v-else>
-              <div>{{ msg.Content }}</div>
-            </template>
-          </div>
-					<div class="chat-info" v-else>
-						<h1>Kein Chat ausgewählt</h1>
-					</div>
-        </div>
+			<div class="chat-messages">
+				<div v-for="(mesg, index) in messages" :key="index" :class="[
+					'chat-bubble',
+					mesg.Sender === 'user' ? 'bubble-user' : 'bubble-bot',
+				]" v-if="selectedChat !== 0">
+					<template v-if="mesg.Sender ==='assistant'">
+						<div v-html="renderAssistantMarkdown(mesg.Content)"></div>
+					</template>
+					<template v-else>
+						<div>{{ mesg.Content }}</div>
+					</template>
+				</div>
+				<div class="chat-info" v-else>
+					<h1>Kein Chat ausgewählt</h1>
+				</div>
+			</div>
 
 			<div class="textarea-container">
-        <div id="message-fade-gradient"></div>
-				<div class="input-wrapper" v-if="selectedChat !== 0">
-					<textarea
-						id="chat-input"
-						rows="3"
-						placeholder="Schreibe eine Nachricht..."
-						v-model="message"
-						@keydown.enter="handleEnter"
-					></textarea>
+				<div id="fade-effect"></div>
+				<div class="input-container" v-if="selectedChat !== 0">
+					<textarea id="chat-input" rows="3" placeholder="Schreibe eine Nachricht" v-model="message"
+						@keydown.enter="handleEnter"></textarea>
 
-					<button
-						class="send-button"
-						@click="submitMessage"
-						:disabled="message.length === 0"
-					>
+					<button class="send-button" @click="SendMessage" :disabled="message.length === 0">
 						<div class="_6f28693">
-							<div
-								class="ds-icon"
-								style="font-size: 16px; width: 16px; height: 16px"
-							>
-								<!-- Arrow Icon -->
+							<div class="ds-icon" style="font-size: 16px; width: 16px; height: 16px">
+								<!-- arrow-up Icon von https://heroicons.com/-- -->
 								<svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
+									<path fill-rule="evenodd" clip-rule="evenodd"
 										d="M7 16c-.595 0-1.077-.462-1.077-1.032V1.032C5.923.462 6.405 0 7 0s1.077.462 1.077 1.032v13.936C8.077 15.538 7.595 16 7 16z"
-										fill="currentColor"
-									></path>
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
+										fill="currentColor"></path>
+									<path fill-rule="evenodd" clip-rule="evenodd"
 										d="M.315 7.44a1.002 1.002 0 0 1 0-1.46L6.238.302a1.11 1.11 0 0 1 1.523 0c.421.403.421 1.057 0 1.46L1.838 7.44a1.11 1.11 0 0 1-1.523 0z"
-										fill="currentColor"
-									></path>
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
+										fill="currentColor"></path>
+									<path fill-rule="evenodd" clip-rule="evenodd"
 										d="M13.685 7.44a1.11 1.11 0 0 1-1.523 0L6.238 1.762a1.002 1.002 0 0 1 0-1.46 1.11 1.11 0 0 1 1.523 0l5.924 5.678c.42.403.42 1.056 0 1.46z"
-										fill="currentColor"
-									></path>
+										fill="currentColor"></path>
 								</svg>
 							</div>
 						</div>
@@ -131,11 +108,11 @@ onMounted(async () => {
 				</div>
 			</div>
 		</div>
-    <div class="not-logged-in-container" v-else>
-      <h1>Nicht eingeloggt</h1>
-      <router-link to="/login" class="nav-button">Login</router-link>
-      <router-link to="/register" class="nav-button">Registrieren</router-link>
-    </div>
+		<div class="notlooggedin" v-else>
+			<h1>Nicht eingeloggt</h1>
+			<router-link to="/login" class="nav-button">Login</router-link>
+			<router-link to="/register" class="nav-button">Registrieren</router-link>
+		</div>
 	</div>
 </template>
 
@@ -199,10 +176,10 @@ onMounted(async () => {
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
-  height: 100%;
+	height: 100%;
 	gap: 20px;
-  padding: 20px;
-  padding-bottom: 25px;
+	padding: 20px;
+	padding-bottom: 25px;
 	height: 90vh;
 	box-sizing: border-box;
 	padding-left: 50px;
@@ -234,19 +211,20 @@ onMounted(async () => {
 }
 
 body {
-  background-color: white;
+	background-color: white;
 }
 
 .textarea-container {
 	display: flex;
-  justify-content: end;
-  height: 10vh;
-  flex-direction: column;
-  align-items: center;
+	justify-content: end;
+	height: 10vh;
+	flex-direction: column;
+	align-items: center;
 }
 
 textarea {
-	width: 100%;;
+	width: 100%;
+	;
 	height: 100%;
 	border: none;
 	font-size: 18px;
@@ -254,27 +232,27 @@ textarea {
 	overflow-y: auto;
 	outline: none;
 	resize: none;
-  background-color: white;
+	background-color: white;
 	height: auto;
-  scrollbar-width: none;
+	scrollbar-width: none;
 	-ms-overflow-style: none;
 }
 
-.input-wrapper {
-  width: 80%;
-  display: flex;
-  flex-wrap: nowrap;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 24px;
-  background-color: white;
-  box-shadow: 0 9px 9px rgba(0, 0, 0, 0.01), 0 2px 5px rgba(0, 0, 0, 0.06);
-  transition: color, background-color, border-color,
-	  box-shadow 150ms ease-in-out;
-  align-items: end;
+.input-container {
+	width: 80%;
+	display: flex;
+	flex-wrap: nowrap;
+	border: 1px solid #ddd;
+	padding: 20px;
+	border-radius: 24px;
+	background-color: white;
+	box-shadow: 0 9px 9px rgba(0, 0, 0, 0.01), 0 2px 5px rgba(0, 0, 0, 0.06);
+	transition: color, background-color, border-color,
+		box-shadow 150ms ease-in-out;
+	align-items: end;
 }
 
-.input-wrapper:focus {
+.input-container:focus {
 	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04), 0 9px 9px rgba(0, 0, 0, 0.01),
 		0 2px 5px rgba(0, 0, 0, 0.06);
 }
@@ -343,45 +321,45 @@ textarea {
 }
 
 .main-container {
-  display: flex;
-  justify-content: start;
-  flex-wrap: nowrap;
-  height: 100%;
-  width: 100%;
+	display: flex;
+	justify-content: start;
+	flex-wrap: nowrap;
+	height: 100%;
+	width: 100%;
 }
 
 .chat-container {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
 }
 
-.not-logged-in-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
+.notlooggedin {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+	height: 100vh;
 }
 
 .nav-button {
-  display: flex;
-  padding: 10px;
-  background-color: #4d6bfe;
-  color: white;
-  text-decoration: none;
-  margin-bottom: 10px;
-  width: 200px;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	padding: 10px;
+	background-color: #4d6bfe;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 10px;
+	width: 200px;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
 }
 
 .nav-button:hover {
-  filter: brightness(90%);
+	filter: brightness(90%);
 }
 
 .chat-info {

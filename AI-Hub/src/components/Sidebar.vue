@@ -1,3 +1,5 @@
+<!-- Code formatiert mit Prettier - Code formatter-->
+
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -5,8 +7,10 @@ import { getAllChats, deleteChat, renameChat } from "@/api/routes/chatRoutes";
 import { isLoggedIn, logout } from "@/api/routes/userRoutes";
 
 const router = useRouter();
-const chats = ref({chats: []});
-const loggedIn = ref(false);
+const chats = ref({
+  chats: []});
+
+  const loggedIn = ref(false);
 const selectedChat = ref(0)
 
 const emit = defineEmits(["SelectedChatChanged"])
@@ -34,7 +38,7 @@ async function DeleteChat(chatid) {
   chats.value.chats = chats.value.chats.filter(chat => chatid !== chat.ChatId)
 }
 
-const handleLogout = async () => {
+const HandleLogout = async () => {
   await logout();
   window.location.reload()
 };
@@ -47,7 +51,7 @@ const Settings = () => {
   }
 }
 
-const changeSelectedChat = (chatId) => {
+const Changeselectedchat = (chatId) => {
   selectedChat.value = chatId
   emit("SelectedChatChanged", {chatId})
 }
@@ -69,6 +73,8 @@ onMounted(async () => {
     <div class="sidebar">
 			<div class="header">
 				<h2>Chats</h2>
+         <!-- chat-bubble-left-ellipsis icon von https://heroicons.com/-->
+
 				<button class="icon-button" @click="NewChat()">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -77,8 +83,7 @@ onMounted(async () => {
 						stroke-width="1.5"
 						stroke="currentColor"
 						class="size-6"
-					>
-						<path
+					><path
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
@@ -91,7 +96,7 @@ onMounted(async () => {
 				<div v-if="chats.chats.length === 0">
 					<button
 						href="#"
-						class="chat-link-btn"
+						class="chatlink-btn"
 						key="no-chats"
 						@click="NewChat()"
 					>
@@ -102,12 +107,11 @@ onMounted(async () => {
 				<div v-else>
           <div
             v-for="chat in chats.chats"
-            :key="chat.ChatId"
-          >
+            :key="chat.ChatId">
             <div
-              class="chat-link active-chat"
+              class="chatlink aktiver-chat"
               v-if="chat.ChatId === selectedChat"
-              @click="changeSelectedChat(chat.ChatId)"
+              @click="Changeselectedchat(chat.ChatId)"
             >
               <div class="chat-row">
                 <span v-if="!chat.isEditing" class="chat-title">
@@ -120,6 +124,8 @@ onMounted(async () => {
                   class="chat-title-input"
                 />
                 <div class="chat-actions">
+                  <!-- pencil-square Icon von https://heroicons.com/-->
+
                   <button class="icon-button" @click="EditChat(chat)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -136,6 +142,7 @@ onMounted(async () => {
                       />
                     </svg>
                   </button>
+                  <!-- trash Icon von https://heroicons.com/-->
                   <button class="icon-button" @click="DeleteChat(chat.ChatId)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -157,8 +164,8 @@ onMounted(async () => {
               <span class="model">({{ chat.SelectedAI }})</span>
             </div>
             <div
-              class="chat-link"
-              @click="changeSelectedChat(chat.ChatId)"
+              class="chatlink"
+              @click="Changeselectedchat(chat.ChatId)"
               v-else
             >
               <div class="chat-row">
@@ -172,7 +179,8 @@ onMounted(async () => {
                   class="chat-title-input"
                 />
                 <div class="chat-actions">
-                  <button class="icon-button" @click="EditChat(chat)">
+                  <!-- pencil-square Icon von https://heroicons.com/-->
+                   <button class="icon-button" @click="EditChat(chat)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -188,6 +196,7 @@ onMounted(async () => {
                       />
                     </svg>
                   </button>
+                  <!-- trash Icon von https://heroicons.com/-->
                   <button class="icon-button" @click="DeleteChat(chat.ChatId)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -214,10 +223,10 @@ onMounted(async () => {
 			<nav class="menu">
 				<a @click="Settings">Accesstokens</a>
 
-				<button v-if="loggedIn" @click="handleLogout" class="logout-button">
+				<button v-if="loggedIn" @click="HandleLogout" class="logout-btn">
 					Logout
 				</button>
-				<router-link v-else to="/login" id="login-button">Login</router-link>
+				<router-link v-else to="/login" id="login-btn">Login</router-link>
 			</nav>
 		</div>
 
@@ -226,17 +235,17 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.logout-button {
+.logout-btn {
   color: #4d6bfe;
   border-color: #4d6bfe;
   padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
   margin-top: 10px;
   background-color: #f9f9f9;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.logout-button:hover {
+.logout-btn:hover {
   background-color: #ddd;
 }
 
@@ -252,8 +261,8 @@ onMounted(async () => {
 .menu a,
 .menu .router-link-active,
 .menu .router-link-exact-active {
-  border: none;
   outline: none;
+  border: none;
 }
 
 .content {
@@ -274,7 +283,7 @@ onMounted(async () => {
   gap: 8px;
 }
 
-.chat-link {
+.chatlink {
   color: #000;
   text-decoration: none;
   border-radius: 6px;
@@ -287,34 +296,34 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.chat-link:hover {
+.chatlink:hover {
   background-color: #ddd;
 }
 
-.chat-link .model {
+.chatlink .model {
   font-size: 0.8em;
   color: #666;
 }
 
-.chat-link-btn {
+.chatlink-btn {
   color: #000;
   text-decoration: none;
   padding: 10px;
   border-radius: 6px;
-  transition: background 0.2s;
   width: 100%;
   border: none;
   margin-bottom: 10px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
-.chat-link-btn:hover {
+.chatlink-btn:hover {
   background-color: #ddd;
 }
 
-.chat-link-btn .model {
-  font-size: 0.8em;
+.chatlink-btn .model {
   color: #666;
+  font-size: 0.8em;
 }
 .menu {
   margin-top: 20px;
@@ -339,9 +348,9 @@ onMounted(async () => {
 
 nav {
   width: 100%;
-  font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  font-size: 12px;
 }
 
 nav a.router-link-exact-active {
@@ -379,10 +388,10 @@ nav a:first-of-type {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
   display: flex;
-  align-items: center;
+  padding: 0;
   color: #333;
+  align-items: center;
   transition: color 0.3s;
 }
 
@@ -426,28 +435,28 @@ nav a:first-of-type {
   width: 260px;
 }
 
-#login-button {
+#login-btn {
   background-color: #4d6bfe;
   color: white;
 }
 
-#login-button:hover {
+#login-btn:hover {
   filter: brightness(90%)
 }
 
-.active-chat {
+.aktiver-chat {
   background-color: #4d6bfe;
 }
 
-.active-chat * {
+.aktiver-chat * {
   color: white !important;
 }
 
-.active-chat:hover {
+.aktiver-chat:hover {
   background-color: #3f58d1;
 }
 
-.active-chat input {
-  color: black !important;
+.aktiver-chat input {
+  color: black  !important;
 }
 </style>
